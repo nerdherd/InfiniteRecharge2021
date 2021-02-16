@@ -67,5 +67,12 @@ public class DriveConstants {
     public static double kTrackWidth = 0.8484;
 	public static final double kMaxCentripetalAcceleration = 2.1;
     
-
+    public static final double kVLinear = 0;
+    public static final double kALinear = 0;
+    public static final double kVAngular = 0;
+    public static final double kAAngular = 0;
+    
+    public static final double gearReduction = 0;
+    public static final double wheelRadiusMeters = 0;
+    
 }

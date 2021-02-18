@@ -85,7 +85,7 @@ public class Drive extends ShiftingDrivetrain {
       m_driveSim = new DifferentialDrivetrainSim(
         LinearSystemId.identifyDrivetrainSystem(
           DriveConstants.kVLinear, DriveConstants.kALinear, DriveConstants.kVAngular, DriveConstants.kAAngular), 
-        DCMotor.getFalcon500(4), 
+        DCMotor.getFalcon500(2), 
         DriveConstants.gearReduction, 
         DriveConstants.kTrackWidth, 
         DriveConstants.wheelRadiusMeters, 
@@ -98,8 +98,8 @@ public class Drive extends ShiftingDrivetrain {
   @Override
   public void simulationPeriodic() {
     SmartDashboard.putString("test", "it works");
-    m_driveSim.setInputs(1,
-        -1);
+    m_driveSim.setInputs(-m_leftMaster.getVoltage() * RobotController.getBatteryVoltage(),
+        m_rightMaster.getVoltage() * RobotController.getBatteryVoltage());
     m_driveSim.update(0.020);
     int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
     SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
@@ -109,17 +109,14 @@ public class Drive extends ShiftingDrivetrain {
     // m_leftEncoderSim.setRate(m_driveSim.getLeftVelocityMetersPerSecond());
     // m_rightEncod erSim.setDistance(m_driveSim.getRightPositionMeters());
     // m_rightEncoderSim.setRate(m_driveSim.getRightVelocityMetersPerSecond());
-    
-    
-    
+
+    SmartDashboard.putNumber("Sim Pose X Meters", m_driveSim.getPose().getX());
+    SmartDashboard.putNumber("Sim Pose Y Meters", m_driveSim.getPose().getY());
+    SmartDashboard.putNumber("Sim heading", m_driveSim.getPose().getRotation().getDegrees());
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Sim Pose X Meters", m_driveSim.getPose().getX());
-    SmartDashboard.putNumber("Sim Pose Y Meters", m_driveSim.getPose().getY());
-    SmartDashboard.putNumber("Sim heading", m_driveSim.getPose().getRotation().getDegrees());
-    SmartDashboard.putNumber("R Master Voltage", super.m_rightMaster.getVoltage());
     // This method will be called once per scheduler run
     super.updateOdometry();
     super.reportToSmartDashboard();

@@ -37,9 +37,10 @@ public class Drive extends ShiftingDrivetrain {
    * Creates a new Drive.
    */
   private DifferentialDrivetrainSim m_driveSim;
-  private AHRS m_gyroSim;
-  private EncoderSim m_leftEncoderSim;
-  private EncoderSim m_rightEncoderSim;
+  // private AnalogGyroSim m_gyroSim;
+  private SimDevice m_gyroSim;
+  // private EncoderSim m_leftEncoderSim;
+  // private EncoderSim m_rightEncoderSim;
 
   public Drive() {
     super(new NerdyFalcon(RobotMap.kLeftMasterTalonID),
@@ -90,7 +91,7 @@ public class Drive extends ShiftingDrivetrain {
         DriveConstants.wheelRadiusMeters, 
         VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
       
-      m_gyroSim = new AHRS();
+        m_gyroSim = SimDevice.create("navX-Sensor", 0);
      }
   }
 
@@ -99,13 +100,15 @@ public class Drive extends ShiftingDrivetrain {
     m_driveSim.setInputs(m_leftMaster.getVoltage() * RobotController.getBatteryVoltage(),
         -m_rightMaster.getVoltage() * RobotController.getBatteryVoltage());
     m_driveSim.update(0.020);
+    int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
+    angle.set(-m_driveSim.getHeading().getDegrees());
 
     // m_leftEncoderSim.setDistance(m_driveSim.getLeftPositionMeters());
     // m_leftEncoderSim.setRate(m_driveSim.getLeftVelocityMetersPerSecond());
-    // m_rightEncoderSim.setDistance(m_driveSim.getRightPositionMeters());
+    // m_rightEncod erSim.setDistance(m_driveSim.getRightPositionMeters());
     // m_rightEncoderSim.setRate(m_driveSim.getRightVelocityMetersPerSecond());
-    // m_gyroSim.setAngle(-m_driveSim.getHeading().getDegrees());
-
+    
     SmartDashboard.putNumber("Sim Pose X Meters", m_driveSim.getPose().getX());
     SmartDashboard.putNumber("Sim Pose Y Meters", m_driveSim.getPose().getY());
     SmartDashboard.putNumber("Sim heading", m_driveSim.getPose().getRotation().getDegrees());

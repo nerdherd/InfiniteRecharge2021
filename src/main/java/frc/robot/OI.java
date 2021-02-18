@@ -26,6 +26,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.InGameResetHood;
 import frc.robot.commands.auto.AutoLineIntoTrench;
+import frc.robot.commands.auto.BarrelRacing;
+import frc.robot.commands.auto.Bounce;
+import frc.robot.commands.auto.BounceBackwards;
+import frc.robot.commands.auto.GalacticPathABlue;
+import frc.robot.commands.auto.GalacticPathARed;
+import frc.robot.commands.auto.GalacticPathBBlue;
+import frc.robot.commands.auto.GalacticPathBRed;
+import frc.robot.commands.auto.Lightspeed;
 import frc.robot.commands.auto.Slalom;
 // import frc.robot.commands.AutolineShot;
 // import frc.robot.commands.ShootBall;
@@ -134,6 +142,20 @@ public class OI extends DefaultOI {
         // wallShot_11.whenPressed(new WallShot());
         // SmartDashboard.putData("Run Forward", new DriveStraightContinuous(Robot.drive, 2000, 0.5));
         SmartDashboard.putData("Slalom Drive", new Slalom(Robot.drive));
+        SmartDashboard.putData("Bounce Drive", new Bounce(Robot.drive));
+        SmartDashboard.putData("Bounce Backwards Drive", new BounceBackwards(Robot.drive));
+        SmartDashboard.putData("Lightspeed Drive", new Lightspeed(Robot.drive));
+        SmartDashboard.putData("Barrel Racing Drive", new BarrelRacing(Robot.drive));
+        SmartDashboard.putData("Galactic Path A Red Drive", new GalacticPathARed(Robot.drive));
+        SmartDashboard.putData("Galactic Path A Blue Drive", new GalacticPathABlue(Robot.drive));
+        SmartDashboard.putData("Galactic Path B Red Drive", new GalacticPathBRed(Robot.drive));
+        SmartDashboard.putData("Galactic Path B Blue Drive", new GalacticPathBBlue(Robot.drive));
+
+        
+
+
+
+
         // SmartDashboard.putData("TurnToAngle", new TurnToAngleLime(0.1));
 
         // SmartDashboard.putData("1VIndex", new SetMotorPower(Robot.index, 0.0833));

@@ -167,14 +167,6 @@ public class Robot extends TimedRobot {
     
   }
 
-
-
-  @Override
-  public void simulationPeriodic() {
-    // TODO Auto-generated method stub
-    super.simulationPeriodic();
-  }
-
   @Override
   public void disabledInit() {
     hood.resetEncoder();
@@ -201,7 +193,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     drive.setBrakeMode();
-    m_autonomousCommand = autoChooser.getSelected();
+    m_autonomousCommand = new Slalom(Robot.drive);
     if (m_autonomousCommand != null) { 
       m_autonomousCommand.schedule();
     }

@@ -18,6 +18,8 @@ import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.simulation.AnalogGyroSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
@@ -28,6 +30,7 @@ import edu.wpi.first.wpilibj.system.plant.LinearSystemId;
 import edu.wpi.first.wpiutil.math.VecBuilder;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.commands.auto.Slalom;
 import frc.robot.constants.DriveConstants;
 
 // import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -97,13 +100,15 @@ public class Drive extends ShiftingDrivetrain {
 
   @Override
   public void simulationPeriodic() {
-    SmartDashboard.putString("test", "it works");
-    m_driveSim.setInputs(-m_leftMaster.getVoltage() * RobotController.getBatteryVoltage(),
-        m_rightMaster.getVoltage() * RobotController.getBatteryVoltage());
+    // m_driveSim.setInputs(-m_leftMaster.getVoltage() * RobotController.getBatteryVoltage(),
+        // m_rightMaster.getVoltage() * RobotController.getBatteryVoltage());
+    m_driveSim.setPose(new Pose2d(0.762, 0.762, new Rotation2d(0)));
+    m_driveSim.setInputs(simLeftVolt, simRightVolt);
+
     m_driveSim.update(0.020);
     int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
     SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
-    angle.set(-m_driveSim.getHeading().getDegrees());
+    angle.set(m_driveSim.getHeading().getDegrees());
 
     // m_leftEncoderSim.setDistance(m_driveSim.getLeftPositionMeters());
     // m_leftEncoderSim.setRate(m_driveSim.getLeftVelocityMetersPerSecond());

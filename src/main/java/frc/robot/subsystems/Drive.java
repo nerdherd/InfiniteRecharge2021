@@ -108,7 +108,7 @@ public class Drive extends ShiftingDrivetrain {
     m_driveSim.update(0.020);
     int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
     SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
-    angle.set(m_driveSim.getHeading().getDegrees());
+    angle.set(-m_driveSim.getHeading().getDegrees());
 
     // m_leftEncoderSim.setDistance(m_driveSim.getLeftPositionMeters());
     // m_leftEncoderSim.setRate(m_driveSim.getLeftVelocityMetersPerSecond());

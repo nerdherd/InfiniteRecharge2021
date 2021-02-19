@@ -193,7 +193,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     drive.setBrakeMode();
-    m_autonomousCommand = new Slalom(Robot.drive);
+    m_autonomousCommand = autoChooser.getSelected();
     if (m_autonomousCommand != null) { 
       m_autonomousCommand.schedule();
     }

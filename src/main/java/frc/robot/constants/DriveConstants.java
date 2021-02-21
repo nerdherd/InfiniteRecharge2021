@@ -73,7 +73,7 @@ public class DriveConstants {
     public static final double kVAngular = 0.482;
     public static final double kAAngular = 0.0637;
     
-    public static final double gearReduction = 8;
+    public static final double gearReduction = 9.6; //8
     public static final double wheelRadiusMeters = 0.152;
     
 }

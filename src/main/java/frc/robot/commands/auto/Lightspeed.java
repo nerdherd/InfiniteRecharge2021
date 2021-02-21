@@ -48,7 +48,7 @@ public class Lightspeed extends SequentialCommandGroup {
     .addConstraint(autoVoltageConstraint);
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(1.143, 2.540, new Rotation2d(0)), 
+    new Pose2d(1.143, 2.540, new Rotation2d(Math.PI/2)), 
     List.of(
       new Translation2d(1.651,3.429),
       new Translation2d(2.540,3.937), 
@@ -86,7 +86,7 @@ public class Lightspeed extends SequentialCommandGroup {
       new Translation2d(2.921,2.159),
       new Translation2d(2.413,2.235),
       new Translation2d(1.905,1.905)),
-    new Pose2d(1.524, 0.762, new Rotation2d(Math.PI)), 
+    new Pose2d(1.524, 0.762, new Rotation2d(3*Math.PI/4)), 
     config);
 
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
@@ -100,7 +100,7 @@ public class Lightspeed extends SequentialCommandGroup {
     m_drive);
 
     addCommands(
-    new InstantCommand(() -> m_drive.setPose(new Pose2d(1.143, 2.540, new Rotation2d(0)))),  
+    new InstantCommand(() -> m_drive.setPose(new Pose2d(1.143, 2.540, new Rotation2d(Math.PI/2)))),  
     driveStartToFinish,
     new DriveStraightContinuous(m_drive, 0, 0)
     

@@ -19,7 +19,7 @@ public class DriveConstants {
 	public static final double kRightI = 0;
     public static final double kRightD = 0;
     
-    public static final double kDriveMaxVel = 1;
+    public static final double kDriveMaxVel = 2.5;
     public static final double kDriveMaxAccel = 2.35;
     
     public static final double kGoalMetersY = -2.404;

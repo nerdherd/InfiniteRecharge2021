@@ -48,22 +48,22 @@ public class Slalom extends SequentialCommandGroup {
     .addConstraint(autoVoltageConstraint);
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0.762, 0.762, new Rotation2d(0)), 
+    new Pose2d(0.762, -0.762, new Rotation2d(3*Math.PI/2)), 
     List.of(
-      new Translation2d(2.286,1.524),
-      new Translation2d(3.048,2.413), 
-      new Translation2d(4.572,3.048),
-      new Translation2d(6.223,2.286),
-      new Translation2d(6.858,1.524),
-      new Translation2d(7.62,0.762),
-      new Translation2d(8.89,1.524),
-      new Translation2d(7.62,2.54),
-      new Translation2d(6.858,1.524),
+      new Translation2d(1.524,-2.286),
+      new Translation2d(2.413,-3.048), 
+      new Translation2d(3.048,-4.572),
+      new Translation2d(2.286,-6.223),
+      new Translation2d(1.54,-6.858),
+      new Translation2d(0.762,-7.62),
+      new Translation2d(1.524,-8.89),
+      new Translation2d(2.54,-7.62),
+      new Translation2d(1.524,-6.68),
       new Translation2d(6.096,0.762),
       new Translation2d(4.572,3.048),
       new Translation2d(3.048,1.016),
       new Translation2d(2.286,1.524)),
-    new Pose2d(0.762, 2.286, new Rotation2d(Math.PI)), 
+    new Pose2d(0.762, 2.286, new Rotation2d(Math.PI/2)), 
     config);
 
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
@@ -87,7 +87,7 @@ public class Slalom extends SequentialCommandGroup {
     // Trajectory d4toFinish
 
     addCommands(
-    new InstantCommand(() -> m_drive.setPose(new Pose2d(0.762, 0.762, new Rotation2d(0)))),  
+    new InstantCommand(() -> m_drive.setPose(new Pose2d(0.762, -0.762, new Rotation2d(3*Math.PI/2)))),  
     driveStartToFinish,
     new DriveStraightContinuous(m_drive, 0, 0)
     

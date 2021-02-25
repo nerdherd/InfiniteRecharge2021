@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -43,9 +44,13 @@ public class Lightspeed extends SequentialCommandGroup {
       m_drive.m_kinematics, 
       DriveConstants.kRamseteMaxVolts);
 
+    var autoCentripetalAccelerationConstraint = new CentripetalAccelerationConstraint(DriveConstants.kMaxCentripetalAcceleration);
+
+
+    // var CentripetalAccelerationConstraint = new DifferentialDriveCentro
     TrajectoryConfig config = new TrajectoryConfig(DriveConstants.kDriveMaxVel, DriveConstants.kDriveMaxAccel)
     .setKinematics(m_drive.m_kinematics)
-    .addConstraint(autoVoltageConstraint);
+    .addConstraints(List.of(autoVoltageConstraint, autoCentripetalAccelerationConstraint));
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
     new Pose2d(2.54, -1.143, new Rotation2d(0)), 

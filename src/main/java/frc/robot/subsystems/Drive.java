@@ -44,6 +44,8 @@ public class Drive extends ShiftingDrivetrain {
   private SimDevice m_gyroSim;
   // private EncoderSim m_leftEncoderSim;
   // private EncoderSim m_rightEncoderSim;
+  private Field2d m_field;
+
 
   public Drive() {
     super(new NerdyFalcon(RobotMap.kLeftMasterTalonID),
@@ -84,6 +86,9 @@ public class Drive extends ShiftingDrivetrain {
     //  m_leftEncoder.setDistancePerPulse(Constants.DriveConstants.kEncoderDistancePerPulse)
 
      resetEncoders();
+     m_field = new Field2d();
+     SmartDashboard.putData("Field", m_field);
+
      if(RobotBase.isSimulation()){
       m_driveSim = new DifferentialDrivetrainSim(
         LinearSystemId.identifyDrivetrainSystem(
@@ -102,10 +107,10 @@ public class Drive extends ShiftingDrivetrain {
   public void simulationPeriodic() {
     // m_driveSim.setInputs(-m_leftMaster.getVoltage() * RobotController.getBatteryVoltage(),
         // m_rightMaster.getVoltage() * RobotController.getBatteryVoltage());
-    m_driveSim.setPose(new Pose2d(0.762, 0.762, new Rotation2d(0)));
+    m_driveSim.setPose(new Pose2d(0.762, 0.762, new Rotation2d(0))); // Slalom
+    // m_driveSim.setPose( new Pose2d(0.762, 2.032, new Rotation2d(0))); // Bounce
     m_driveSim.setInputs(simLeftVolt, simRightVolt);
-
-    m_driveSim.update(0.020);
+    m_driveSim.update(0.02);
     int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
     SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
     angle.set(-m_driveSim.getHeading().getDegrees());
@@ -118,6 +123,7 @@ public class Drive extends ShiftingDrivetrain {
     SmartDashboard.putNumber("Sim Pose X Meters", m_driveSim.getPose().getX());
     SmartDashboard.putNumber("Sim Pose Y Meters", m_driveSim.getPose().getY());
     SmartDashboard.putNumber("Sim heading", m_driveSim.getPose().getRotation().getDegrees());
+    m_field.setRobotPose(m_driveSim.getPose());
   }
 
   @Override

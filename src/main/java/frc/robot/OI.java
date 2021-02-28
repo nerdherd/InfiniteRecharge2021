@@ -18,6 +18,7 @@ import com.nerdherd.lib.motor.single.SingleMotorMechanism;
 import com.nerdherd.lib.oi.DefaultOI;
 
 import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 
 // import org.graalvm.compiler.lir.aarch64.AArch64Move.StoreConstantOp;
 
@@ -35,6 +36,7 @@ import frc.robot.commands.auto.GalacticPathBBlue;
 import frc.robot.commands.auto.GalacticPathBRed;
 import frc.robot.commands.auto.Lightspeed;
 import frc.robot.commands.auto.Slalom;
+import frc.robot.commands.auto.TestRamsete;
 // import frc.robot.commands.AutolineShot;
 // import frc.robot.commands.ShootBall;
 // import frc.robot.commands.ShootBallTemp;
@@ -150,7 +152,9 @@ public class OI extends DefaultOI {
         SmartDashboard.putData("Galactic Path A Blue Drive", new GalacticPathABlue(Robot.drive));
         SmartDashboard.putData("Galactic Path B Red Drive", new GalacticPathBRed(Robot.drive));
         SmartDashboard.putData("Galactic Path B Blue Drive", new GalacticPathBBlue(Robot.drive));
-
+        SmartDashboard.putData("Test Ramsete", new TestRamsete(Robot.drive));
+        // SmartDashboard.putData("cadish", new InstantCom q    mand(()-> Robot.drive.setPose(new Pose2d(x, y, rotation))));
+        SmartDashboard.putNumber("Left Voltage", Robot.drive.getLeftOutputVoltage());
         
 
 

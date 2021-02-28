@@ -14,6 +14,7 @@ import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
 import com.nerdherd.lib.motor.single.SingleMotorMechanism;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.pneumatics.Piston;
+import com.nerdherd.lib.sensor.analog.PressureSensor;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -71,6 +72,7 @@ public class Robot extends TimedRobot {
   public static Hopper hopper;
   public static SingleMotorVictorSPX intakeRoll;
   public static Indexer index;
+  public static PressureSensor pes;
   // public static SingleMotorMechanism motor;
   // public static PowerDistributionPanel pdp;
   public static Command m_autonomousCommand;
@@ -106,6 +108,7 @@ public class Robot extends TimedRobot {
     // motor = new SingleMotorMechanism(6, "Motor", true, true);
     ds = DriverStation.getInstance();
     // climberRatchet = new Piston(6, 9);
+    pes = new PressureSensor("name",  2);
     // climberRatchet.setReverse();
     CameraServer.getInstance().startAutomaticCapture();
 
@@ -161,6 +164,8 @@ public class Robot extends TimedRobot {
     climber.reportToSmartDashboard();
     SmartDashboard.putNumber("DesiredAngle", Robot.hood.distToAngle(Robot.limelight.getDistanceWidth()));
     SmartDashboard.putNumber("Right Voltage 1", drive.getRightOutputVoltage());
+    SmartDashboard.putNumber("Pressure: ", pes.getScaled());
+    
     
     climber.reportToSmartDashboard();
     

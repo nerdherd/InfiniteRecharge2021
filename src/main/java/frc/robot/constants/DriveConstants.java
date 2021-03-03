@@ -11,11 +11,11 @@ package frc.robot.constants;
  * Add your docs here.
  */
 public class DriveConstants {
-    public static final double kLeftP = 0.00268; //replace these
+    public static final double kLeftP = 0.000394; //replace these
 	public static final double kLeftI = 0;
 	public static final double kLeftD = 0;
 
-	public static final double kRightP = 0.00267;
+	public static final double kRightP = 0.000435;
 	public static final double kRightI = 0;
     public static final double kRightD = 0;
     
@@ -34,22 +34,22 @@ public class DriveConstants {
     public static final double kEndTrenchMetersX = 9.62406;
     public static final double kEndTrenchMetersY = -0.6;
     
-    public static final double kLeftRamseteS = 0.178;
-    public static final double kLeftRamseteV = 0.461;
-    public static final double kLeftRamseteA = 0.0771;
+    public static final double kLeftRamseteS = 0.23;
+    public static final double kLeftRamseteV = 0.466;
+    public static final double kLeftRamseteA = 0.0702;
 
 
-    public static final double kramseteS = 0.171; //replace these when analyzing middle? 
-    public static final double kramseteV = 0.461;
-    public static final double kramseteA = 0.0767;
+    public static final double kramseteS = 0.226; //replace these when analyzing middle? 
+    public static final double kramseteV = 0.465;
+    public static final double kramseteA = 0.0742;
 
     // public static final double kramseteP = 9.52;
     // public static final double kramseteI = 0;
     // public static final double kramseteD = 0;
 
-    public static final double kRightRamseteS = 0.164;
-    public static final double kRightRamseteV = 0.461;
-    public static final double kRightRamseteA = 0.0765;
+    public static final double kRightRamseteS = 0.222;
+    public static final double kRightRamseteV = 0.463;
+    public static final double kRightRamseteA = 0.0771;
 
 	public static final double kRamseteMaxVolts = 10;
 
@@ -65,7 +65,7 @@ public class DriveConstants {
     public static double kLeftTicksPerFoot = 12018.35;
     public static double kRightTicksPerFoot = 12018.35;
 
-    public static double kTrackWidth = 0.8484;
+    public static double kTrackWidth = 0.848;
 	public static final double kMaxCentripetalAcceleration = 2.1;
     
     public static final double kVLinear = 0.461;

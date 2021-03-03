@@ -48,7 +48,7 @@ public class Slalom extends SequentialCommandGroup {
     .addConstraint(autoVoltageConstraint);
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0.762, -0.762, new Rotation2d(3*Math.PI/2)), 
+    new Pose2d(0.762, -0.762, new Rotation2d(-Math.PI/2)), 
     List.of(
       new Translation2d(0.762,-1.905),
       new Translation2d(1.524,-2.286), 
@@ -59,22 +59,21 @@ public class Slalom extends SequentialCommandGroup {
       new Translation2d(1.016,-6.858),
       new Translation2d(0.635,-7.62),
       new Translation2d(1.524,-8.509),
-      new Translation2d(2.54,0.762),
+      new Translation2d(2.54,-7.62),
       new Translation2d(2.032,-6.858),
       new Translation2d(1.524,-6.858),
       new Translation2d(0.508,-6.35),
       new Translation2d(0.381,-4.572),
       new Translation2d(0.635,-3.048),
       new Translation2d(1.524,-2.286),
-      new Translation2d(2.286,-1.905),
-      ),
+      new Translation2d(2.286,-1.905)),
     new Pose2d(2.286, -0.762, new Rotation2d(Math.PI/2)), 
     config);
 
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
     m_drive::getPose2d, 
     // new RamseteController(1, 0.65), //tune here
-    new RamseteController(1, 0.65),
+    new RamseteController(4.0, 1.4),
     new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
     m_drive.m_kinematics, m_drive::getCurrentSpeeds,
     new PIDController(DriveConstants.kLeftP, DriveConstants.kLeftI, DriveConstants.kLeftD), //change in constants after characterizing
@@ -93,9 +92,9 @@ public class Slalom extends SequentialCommandGroup {
     // Trajectory d4toFinish
 
     addCommands(
-    new InstantCommand(() -> m_drive.setPose(new Pose2d(0.762, -0.762, new Rotation2d(3*Math.PI/2)))),  
+    // new InstantCommand(() -> m_drive.setPose(new Pose2d(0.762, -0.762, new Rotation2d(Math.PI/2)))),  
     driveStartToFinish,
-    new DriveStraightContinuous(m_drive, 0, 0)
+    // new DriveStraightContinuous(m_drive, 0, 0)
     
     );
   

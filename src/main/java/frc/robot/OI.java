@@ -19,6 +19,7 @@ import com.nerdherd.lib.oi.DefaultOI;
 
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 
 // import org.graalvm.compiler.lir.aarch64.AArch64Move.StoreConstantOp;
 
@@ -155,7 +156,7 @@ public class OI extends DefaultOI {
         SmartDashboard.putData("Test Ramsete", new TestRamsete(Robot.drive));
         // SmartDashboard.putData("cadish", new InstantCom q    mand(()-> Robot.drive.setPose(new Pose2d(x, y, rotation))));
         SmartDashboard.putNumber("Left Voltage", Robot.drive.getLeftOutputVoltage());
-        
+        SmartDashboard.putData("Config Slalom Heading", new InstantCommand(() -> Robot.drive.setPose(new Pose2d(0.762, -0.762, new Rotation2d(Math.PI/2)))));
 
 
 

@@ -11,11 +11,11 @@ package frc.robot.constants;
  * Add your docs here.
  */
 public class DriveConstants {
-    public static final double kLeftP = 0.000394; //replace these
+    public static final double kLeftP = 0.000351; //replace these
 	public static final double kLeftI = 0;
 	public static final double kLeftD = 0;
 
-	public static final double kRightP = 0.000435;
+	public static final double kRightP = 0.000324;
 	public static final double kRightI = 0;
     public static final double kRightD = 0;
     
@@ -34,22 +34,22 @@ public class DriveConstants {
     public static final double kEndTrenchMetersX = 9.62406;
     public static final double kEndTrenchMetersY = -0.6;
     
-    public static final double kLeftRamseteS = 0.23;
-    public static final double kLeftRamseteV = 0.466;
-    public static final double kLeftRamseteA = 0.0702;
+    public static final double kLeftRamseteS = 0.254;
+    public static final double kLeftRamseteV = 2.01;
+    public static final double kLeftRamseteA = 0.302;
 
 
-    public static final double kramseteS = 0.226; //replace these when analyzing middle? 
-    public static final double kramseteV = 0.465;
-    public static final double kramseteA = 0.0742;
+    public static final double kramseteS = 0.253; //replace these when analyzing middle? 
+    public static final double kramseteV = 2.02;
+    public static final double kramseteA = 0.289;
 
     // public static final double kramseteP = 9.52;
     // public static final double kramseteI = 0;
     // public static final double kramseteD = 0;
 
-    public static final double kRightRamseteS = 0.222;
-    public static final double kRightRamseteV = 0.463;
-    public static final double kRightRamseteA = 0.0771;
+    public static final double kRightRamseteS = 0.253;
+    public static final double kRightRamseteV = 2.02;
+    public static final double kRightRamseteA = 0.274;
 
 	public static final double kRamseteMaxVolts = 10;
 

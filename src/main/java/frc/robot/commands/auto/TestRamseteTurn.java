@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
@@ -31,12 +32,12 @@ import frc.robot.constants.DriveConstants;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class Slalom extends SequentialCommandGroup {
+public class TestRamseteTurn extends SequentialCommandGroup {
   /**
    * Creates a new Slalom.
    */
   private Drivetrain m_drive;
-  public Slalom(Drivetrain drive) {
+  public TestRamseteTurn(Drivetrain drive) {
     m_drive = drive;
 
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
@@ -49,54 +50,56 @@ public class Slalom extends SequentialCommandGroup {
     .addConstraint(autoVoltageConstraint);
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0.762, -0.762, new Rotation2d(-Math.PI/2)), 
+    new Pose2d(0, 0, new Rotation2d(0)), 
     List.of(
-      new Translation2d(0.762,-1.905),
-      new Translation2d(1.524,-2.286), 
-      new Translation2d(2.413,-3.048),
-      new Translation2d(2.667,-4.572),
-      new Translation2d(2.54,-6.35),
-      new Translation2d(1.524,-6.858),
-      new Translation2d(1.016,-6.858),
-      new Translation2d(0.635,-7.62),
-      new Translation2d(1.524,-8.509),
-      new Translation2d(2.54,-7.62),
-      new Translation2d(2.032,-6.858),
-      new Translation2d(1.524,-6.858),
-      new Translation2d(0.508,-6.35),
-      new Translation2d(0.381,-4.572),
-      new Translation2d(0.635,-3.048),
-      new Translation2d(1.524,-2.286),
-      new Translation2d(2.286,-1.905)),
-    new Pose2d(2.286, -0.762, new Rotation2d(Math.PI/2)), 
+      new Translation2d(2,-2)),
+    new Pose2d(0, -4, new Rotation2d(Math.PI)), 
     config);
 
-    var leftController = new PIDController(DriveConstants.kLeftP, 0, 0);
+    RamseteController disabledRamsete = new RamseteController() {
+      @Override
+      public ChassisSpeeds calculate(Pose2d currentPose, Pose2d poseRef, double linearVelocityRefMeters,
+              double angularVelocityRefRadiansPerSecond) {
+          return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
+      }
+  };
+
+  var leftController = new PIDController(DriveConstants.kLeftP, 0, 0);
   var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
     m_drive::getPose2d, 
-    // new RamseteController(1, 0.65), //tune here
-    new RamseteController(1.0, 0.4),
+    new RamseteController(2, 0.7), //tune here
+    // disabledRamsete,
     new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
     m_drive.m_kinematics, m_drive::getCurrentSpeeds,
-    leftController,
-    rightController, 
+    leftController, //change in constants after characterizing
+    rightController,
     (leftVolts, rightVolts) -> {
       m_drive.setVoltage(leftVolts, rightVolts);
 
       SmartDashboard.putNumber("Left wheel speeds", m_drive.getCurrentSpeeds().leftMetersPerSecond);
       SmartDashboard.putNumber("Left Desired Speeds", leftController.getSetpoint());
-      SmartDashboard.putNumber("Left Position Error", leftController.getPositionError());
 
       SmartDashboard.putNumber("Right wheel speeds", m_drive.getCurrentSpeeds().rightMetersPerSecond);
       SmartDashboard.putNumber("Right Desired Speeds", rightController.getSetpoint());
-      SmartDashboard.putNumber("Velocity Position Error", rightController.getPositionError());
-
-  }, 
+  },
     m_drive);
     
+    // Trajectory d4TOd8
+
+    // Trajectory d8Tod10
+
+    // Trajectory d10tod8
+
+    // Trajectory d8tod4
+
+    // Trajectory d4toFinish
+
     addCommands(
-    driveStartToFinish
+    new InstantCommand(() -> m_drive.setPose(new Pose2d(0, 0, new Rotation2d(0)))),  
+    driveStartToFinish,
+    new DriveStraightContinuous(m_drive, 0, 0)
+    
     );
   
   }

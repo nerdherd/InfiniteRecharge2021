@@ -38,6 +38,7 @@ import frc.robot.commands.auto.GalacticPathBRed;
 import frc.robot.commands.auto.Lightspeed;
 import frc.robot.commands.auto.Slalom;
 import frc.robot.commands.auto.TestRamsete;
+import frc.robot.commands.auto.TestRamseteTurn;
 // import frc.robot.commands.AutolineShot;
 // import frc.robot.commands.ShootBall;
 // import frc.robot.commands.ShootBallTemp;
@@ -422,7 +423,8 @@ public class OI extends DefaultOI {
         SmartDashboard.putData("Reset XY", new InstantCommand(() -> Robot.drive.resetXY()));
         SmartDashboard.putData("Reset Gyro", new ResetGyro(Robot.drive));
         // SmartDashboard.putData("Steal Two", new StealTwoEnemyTrench(Robot.drive));
-
+                SmartDashboard.putData("Test Ramsete", new TestRamsete(Robot.drive));
+                SmartDashboard.putData("Test Ramsete Turn", new TestRamseteTurn(Robot.drive));
         // SmartDashboard.putNumber("Right Encoder",
         // Robot.drive.getRightMasterPosition());
         // SmartDashboard.putNumber("Left Encoder",

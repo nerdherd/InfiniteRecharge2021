@@ -128,7 +128,7 @@ public class Robot extends TimedRobot {
 
     drive.setDefaultCommand(new ArcadeDrive(Robot.drive, Robot.oi));
     drive.configKinematics(DriveConstants.kTrackWidth, new Rotation2d(0), new Pose2d(0, 0, new Rotation2d(0)));
-    // NerdyBadlog.initAndLog("/home/lvuser/logs/", "4201_practice", 0.02, shooter, hood, index, hopper, drive);
+    NerdyBadlog.initAndLog("/home/lvuser/logs/", "FeedForwardTest", 0.02, shooter, hood, index, hopper, drive);
 
     // m_autonomousCommand = new BasicAuto();
     autoChooser = new SendableChooser<Command>();

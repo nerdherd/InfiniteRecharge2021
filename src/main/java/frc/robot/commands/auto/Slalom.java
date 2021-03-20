@@ -70,7 +70,7 @@ public class Slalom extends SequentialCommandGroup {
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
     m_drive::getPose2d, 
     // new RamseteController(1, 0.65), //tune here
-    new RamseteController(1.0, 0.4),
+    new RamseteController(2.0, 0.4),
     new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
     m_drive.m_kinematics, m_drive::getCurrentSpeeds,
     leftController,

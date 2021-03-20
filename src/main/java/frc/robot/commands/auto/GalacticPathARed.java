@@ -51,17 +51,17 @@ public class GalacticPathARed extends SequentialCommandGroup {
     .addConstraint(autoVoltageConstraint);
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0.762, 2.286, new Rotation2d(0)), 
-    List.of(
-      new Translation2d(2.286,2.286),
-      new Translation2d(3.810,1.524), 
-      new Translation2d(4.572,3.810)),
-    new Pose2d(8.382, 2.286, new Rotation2d(Math.PI)), 
-    config);
+      new Pose2d(2.286, -0.762, new Rotation2d(-Math.PI/2)), 
+      List.of(
+        new Translation2d(2.286,-2.032),
+        new Translation2d(1.651,-3.683), 
+        new Translation2d(3.81,-4.572)),
+      new Pose2d(2.667, -8.382, new Rotation2d(-Math.PI/2)), 
+      config);
 
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
     m_drive::getPose2d, 
-    new RamseteController(2, 0.7), //tune here
+    new RamseteController(1, 0.4), //tune here
     new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
     m_drive.m_kinematics, m_drive::getCurrentSpeeds,
     new PIDController(DriveConstants.kLeftP, DriveConstants.kLeftI, DriveConstants.kLeftD), //change in constants after characterizing
@@ -71,7 +71,6 @@ public class GalacticPathARed extends SequentialCommandGroup {
     
 
     addCommands(
-    new InstantCommand(() -> m_drive.setPose(new Pose2d(0.762, 2.286, new Rotation2d(0)))),  
     new ParallelRaceGroup(new IntakeBalls(), driveStartToFinish),
     new DriveStraightContinuous(m_drive, 0, 0),
     new Stow()

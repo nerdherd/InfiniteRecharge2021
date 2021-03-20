@@ -158,6 +158,8 @@ public class OI extends DefaultOI {
         // SmartDashboard.putData("cadish", new InstantCom q    mand(()-> Robot.drive.setPose(new Pose2d(x, y, rotation))));
         SmartDashboard.putNumber("Left Voltage", Robot.drive.getLeftOutputVoltage());
         SmartDashboard.putData("Config Slalom Heading", new InstantCommand(() -> Robot.drive.setPose(new Pose2d(0.762, -0.762, new Rotation2d(Math.PI/2)))));
+        SmartDashboard.putData("Config Galactic Heading", new InstantCommand(() -> Robot.drive.setPose(new Pose2d(2.286, -0.762, new Rotation2d(Math.PI/2)))));  
+
 
 
 

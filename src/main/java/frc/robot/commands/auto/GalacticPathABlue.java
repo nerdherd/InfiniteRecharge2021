@@ -51,12 +51,13 @@ public class GalacticPathABlue extends SequentialCommandGroup {
     .addConstraint(autoVoltageConstraint);
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0.762, 1.524, new Rotation2d(0)), 
+    new Pose2d(1.905, -0.381, new Rotation2d(0)), 
     List.of(
-      new Translation2d(4.572,0.762),
-      new Translation2d(5.334,3.048), 
-      new Translation2d(6.858,2.286)),
-    new Pose2d(8.382, 2.286, new Rotation2d(Math.PI)), 
+      new Translation2d(1.016,-4.445),
+      new Translation2d(3.048,-5.334), 
+      new Translation2d(2.794,-5.08), 
+      new Translation2d(2.286,-6.604)),
+    new Pose2d(2.286, -8.763, new Rotation2d(Math.PI)), 
     config);
 
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 

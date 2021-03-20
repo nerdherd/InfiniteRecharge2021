@@ -51,12 +51,12 @@ public class GalacticPathBRed extends SequentialCommandGroup {
     .addConstraint(autoVoltageConstraint);
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0.762, 3.048, new Rotation2d(0)), 
+    new Pose2d(2.667, -0.381, new Rotation2d(0)), 
     List.of(
-      new Translation2d(2.286,3.048),
-      new Translation2d(3.810,1.524), 
-      new Translation2d(5.334,3.048)),
-    new Pose2d(8.382, 3.048, new Rotation2d(Math.PI)), 
+      new Translation2d(2.794,-2.032),
+      new Translation2d(1.778,-3.556), 
+      new Translation2d(2.794,-5.08)),
+    new Pose2d(2.667, -8.763, new Rotation2d(Math.PI)), 
     config);
 
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 

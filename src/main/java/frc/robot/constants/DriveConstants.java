@@ -19,8 +19,8 @@ public class DriveConstants {
 	public static final double kRightI = 0;
     public static final double kRightD = 0;
     
-    public static final double kDriveMaxVel = 2.5;
-    public static final double kDriveMaxAccel = 2.35;
+    public static final double kDriveMaxVel = 2.25;
+    public static final double kDriveMaxAccel = 2.0;
     
     public static final double kGoalMetersY = -2.404;
     public static final double kAutoLineMeters = 3.048;
@@ -62,8 +62,8 @@ public class DriveConstants {
     public static double kRightF = 0.0;
 
     public static int kMaxVelocity = 10000;
-    public static double kLeftTicksPerFoot = 12018.35;
-    public static double kRightTicksPerFoot = 12018.35;
+    public static double kLeftTicksPerFoot = 11508;
+    public static double kRightTicksPerFoot = 11508;
 
     public static double kTrackWidth = 0.848;
 	public static final double kMaxCentripetalAcceleration = 2.1;

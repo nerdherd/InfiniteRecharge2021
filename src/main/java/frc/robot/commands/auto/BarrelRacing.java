@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -70,9 +71,18 @@ public class BarrelRacing extends SequentialCommandGroup {
     new Pose2d(1.143, 1.905, new Rotation2d(Math.PI)), 
     config);
 
-    RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
-    m_drive::getPose2d, 
-    new RamseteController(2.0, 0.7), //tune here
+    RamseteController disabledRamsete = new RamseteController() {
+      @Override
+      public ChassisSpeeds calculate(Pose2d currentPose, Pose2d poseRef, double linearVelocityRefMeters, 
+          double angularVelocityRefRadiansPerSecond) {
+            return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
+          }
+        };
+      var leftController = new PIDController(DriveConstants.kLeftP, 0, 0);
+      var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
+      RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
+      m_drive::getPose2d, 
+      disabledRamsete,
     new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
     m_drive.m_kinematics, m_drive::getCurrentSpeeds,
     new PIDController(DriveConstants.kLeftP, DriveConstants.kLeftI, DriveConstants.kLeftD), //change in constants after characterizing

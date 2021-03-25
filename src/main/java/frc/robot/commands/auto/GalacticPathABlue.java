@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -68,17 +69,29 @@ public class GalacticPathABlue extends SequentialCommandGroup {
             return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
           }
         };
-      var leftController = new PIDController(DriveConstants.kLeftP, 0, 0);
-      var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
-      RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
-      m_drive::getPose2d, 
-      disabledRamsete,
-    new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
-    m_drive.m_kinematics, m_drive::getCurrentSpeeds,
-    new PIDController(DriveConstants.kLeftP, DriveConstants.kLeftI, DriveConstants.kLeftD), //change in constants after characterizing
-    new PIDController(DriveConstants.kRightP, DriveConstants.kRightI, DriveConstants.kRightD),
-    m_drive::setVoltage, 
-    m_drive);
+        var leftController = new PIDController(DriveConstants.kLeftP, 0, 0);
+        var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
+        RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
+        m_drive::getPose2d, 
+        disabledRamsete,
+        new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
+        m_drive.m_kinematics, m_drive::getCurrentSpeeds,
+        leftController,
+        rightController, 
+        (leftVolts, rightVolts) -> {
+          m_drive.setVoltage(leftVolts, rightVolts);
+          
+          SmartDashboard.putNumber("Left Wheel speeds", m_drive.getCurrentSpeeds().leftMetersPerSecond);
+          SmartDashboard.putNumber("Left Desired Speeds", leftController.getSetpoint());
+          SmartDashboard.putNumber("Left Position Error", leftController.getPositionError());
+    
+          SmartDashboard.putNumber("Right Wheel speeds", m_drive.getCurrentSpeeds().rightMetersPerSecond);
+          SmartDashboard.putNumber("Right Desired Speeds", rightController.getSetpoint());
+          SmartDashboard.putNumber("Velocity Position Error", rightController.getPositionError());
+          // prevTime = time;
+    
+      }, 
+        m_drive);
     
 
     addCommands(

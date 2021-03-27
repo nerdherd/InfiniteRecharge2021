@@ -11,16 +11,16 @@ package frc.robot.constants;
  * Add your docs here.
  */
 public class DriveConstants {
-    public static final double kLeftP = 0.000351; //replace these
+    public static final double kLeftP = 2.15; //replace these
 	public static final double kLeftI = 0;
 	public static final double kLeftD = 0;
 
-	public static final double kRightP = 0.000324;
+	public static final double kRightP = 2.12;
 	public static final double kRightI = 0;
     public static final double kRightD = 0;
     
-    public static final double kDriveMaxVel = 2.25;
-    public static final double kDriveMaxAccel = 2.0;
+    public static final double kDriveMaxVel = 1.5;
+    public static final double kDriveMaxAccel = 1.0;
     
     public static final double kGoalMetersY = -2.404;
     public static final double kAutoLineMeters = 3.048;
@@ -34,22 +34,22 @@ public class DriveConstants {
     public static final double kEndTrenchMetersX = 9.62406;
     public static final double kEndTrenchMetersY = -0.6;
     
-    public static final double kLeftRamseteS = 0.254;
-    public static final double kLeftRamseteV = 2.01;
-    public static final double kLeftRamseteA = 0.302;
+    public static final double kLeftRamseteS = 0.7;
+    public static final double kLeftRamseteV = 2.08;
+    public static final double kLeftRamseteA = 0.45;
 
 
-    public static final double kramseteS = 0.253; //replace these when analyzing middle? 
-    public static final double kramseteV = 2.02;
-    public static final double kramseteA = 0.289;
+    public static final double kramseteS = 0.731; //replace these when analyzing middle? 
+    public static final double kramseteV = 2.08;
+    public static final double kramseteA = 0.429;
 
     // public static final double kramseteP = 9.52;
     // public static final double kramseteI = 0;
     // public static final double kramseteD = 0;
 
-    public static final double kRightRamseteS = 0.253;
-    public static final double kRightRamseteV = 2.02;
-    public static final double kRightRamseteA = 0.274;
+    public static final double kRightRamseteS = 0.705;
+    public static final double kRightRamseteV = 2.08;
+    public static final double kRightRamseteA = 0.43;
 
 	public static final double kRamseteMaxVolts = 10;
 
@@ -65,7 +65,7 @@ public class DriveConstants {
     public static double kLeftTicksPerFoot = 11508;
     public static double kRightTicksPerFoot = 11508;
 
-    public static double kTrackWidth = 0.848;
+    public static double kTrackWidth = 0.678;
 	public static final double kMaxCentripetalAcceleration = 2.1;
     
     public static final double kVLinear = 0.461;

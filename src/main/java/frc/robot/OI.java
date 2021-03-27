@@ -10,6 +10,7 @@ package frc.robot;
 import com.nerdherd.lib.drivetrain.auto.DriveStraightContinuous;
 import com.nerdherd.lib.drivetrain.auto.ResetDriveEncoders;
 import com.nerdherd.lib.drivetrain.auto.ResetGyro;
+import com.nerdherd.lib.drivetrain.characterization.DriveCharacterizationTest;
 import com.nerdherd.lib.drivetrain.shifting.ShiftHigh;
 import com.nerdherd.lib.drivetrain.shifting.ShiftLow;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
@@ -146,6 +147,7 @@ public class OI extends DefaultOI {
         // wallShot_11.whenPressed(new WallShot());
         // SmartDashboard.putData("Run Forward", new DriveStraightContinuous(Robot.drive, 2000, 0.5));
         SmartDashboard.putData("Slalom Drive", new Slalom(Robot.drive));
+        SmartDashboard.putData("Ramp Test", new DriveCharacterizationTest(Robot.drive, 0.2));
         SmartDashboard.putData("Bounce Drive", new Bounce(Robot.drive));
         SmartDashboard.putData("Bounce Backwards Drive", new BounceBackwards(Robot.drive));
         SmartDashboard.putData("Lightspeed Drive", new Lightspeed(Robot.drive));

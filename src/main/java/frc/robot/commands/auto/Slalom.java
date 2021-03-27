@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -49,8 +50,12 @@ public class Slalom extends SequentialCommandGroup {
         new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA),
         m_drive.m_kinematics, DriveConstants.kRamseteMaxVolts);
 
+    var autoCentriptetalConstraint = new CentripetalAccelerationConstraint(
+        0.5);
+
     TrajectoryConfig config = new TrajectoryConfig(DriveConstants.kDriveMaxVel, DriveConstants.kDriveMaxAccel)
-        .setKinematics(m_drive.m_kinematics);
+        .setKinematics(m_drive.m_kinematics)
+        .addConstraints(List.of(autoVoltageConstraint, autoCentriptetalConstraint));
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
         new Pose2d(0.762, -0.762, new Rotation2d(-Math.PI / 2)),
@@ -66,24 +71,37 @@ public class Slalom extends SequentialCommandGroup {
     // ArrayList<Double> yPoses = new ArrayList<Double>();    
     // double prevTime = Timer.getFPGATimestamp();
 
-    RamseteController disabledRamsete = new RamseteController() {
-    @Override
-    public ChassisSpeeds calculate(Pose2d currentPose, Pose2d poseRef, double linearVelocityRefMeters, 
-        double angularVelocityRefRadiansPerSecond) {
-          return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
-        }
-      };
+    // RamseteController disabledRamsete = new RamseteController() {
+    // @Override
+    // public ChassisSpeeds calculate(Pose2d currentPose, Pose2d poseRef, double linearVelocityRefMeters, 
+    //     double angularVelocityRefRadiansPerSecond) {
+    //       return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
+    //     }
+    //   };
+    double t = 0;
+    
     var leftController = new PIDController(DriveConstants.kLeftP, 0, 0);
     var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
     m_drive::getPose2d, 
-    disabledRamsete,
+    // disabledRamsete,
+    new RamseteController(1.0, 0.2),
     new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
     m_drive.m_kinematics, m_drive::getCurrentSpeeds,
     leftController,
     rightController, 
     (leftVolts, rightVolts) -> {
       m_drive.setVoltage(leftVolts, rightVolts);
+
+      Trajectory.State desiredPose = startToFinish.sample(t);
+      SmartDashboard.getNumber("DesiredXPos", desiredPose.poseMeters.getX());
+      SmartDashboard.getNumber("DesiredYPos", desiredPose.poseMeters.getY());
+
+      SmartDashboard.getNumber("ActualYPos", m_drive.getXpos());
+      SmartDashboard.getNumber("ActualYPos", m_drive.getYpos());
+
+      SmartDashboard.getNumber("DesiredHeading", desiredPose.poseMeters.getRotation().getDegrees());
+      SmartDashboard.getNumber("ActualHeading", m_drive.getAngle().getDegrees());
       
       SmartDashboard.putNumber("Left Wheel speeds", m_drive.getCurrentSpeeds().leftMetersPerSecond);
       SmartDashboard.putNumber("Left Desired Speeds", leftController.getSetpoint());
@@ -92,10 +110,9 @@ public class Slalom extends SequentialCommandGroup {
       SmartDashboard.putNumber("Right Wheel speeds", m_drive.getCurrentSpeeds().rightMetersPerSecond);
       SmartDashboard.putNumber("Right Desired Speeds", rightController.getSetpoint());
       SmartDashboard.putNumber("Velocity Position Error", rightController.getPositionError());
-      // prevTime = time;
 
   }, 
-    m_drive);
+    m_drive);  
     
     addCommands(
     driveStartToFinish

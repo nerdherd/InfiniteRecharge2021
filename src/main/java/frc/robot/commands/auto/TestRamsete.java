@@ -59,38 +59,48 @@ public class TestRamsete extends SequentialCommandGroup {
     new Pose2d(6, 0, new Rotation2d(0)), 
     config);
 
-    RamseteController disabledRamsete = new RamseteController() {
-      @Override
-      public ChassisSpeeds calculate(Pose2d currentPose, Pose2d poseRef, double linearVelocityRefMeters,
-              double angularVelocityRefRadiansPerSecond) {
-          return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
-      }
-  };
+  //   RamseteController disabledRamsete = new RamseteController() {
+  //     @Override
+  //     public ChassisSpeeds calculate(Pose2d currentPose, Pose2d poseRef, double linearVelocityRefMeters,
+  //             double angularVelocityRefRadiansPerSecond) {
+  //         return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
+  //     }
+  // };
 
-  var leftController = new PIDController(DriveConstants.kLeftP, DriveConstants.kLeftI, DriveConstants.kLeftD);
-  var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
-    RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
-    m_drive::getPose2d, 
-    // new RamseteController(1.0, 0.4), //tune here
-    disabledRamsete,
-    new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
-    m_drive.m_kinematics, m_drive::getCurrentSpeeds,
-    leftController, //change in constants after characterizing
-    rightController,
-    (leftVolts, rightVolts) -> {
-      m_drive.setVoltage(leftVolts, rightVolts);
+  RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
+      m_drive::getPose2d, 
+      new RamseteController(1.0, 0.2), //tune here
+      new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
+      m_drive.m_kinematics, m_drive::getCurrentSpeeds,
+      new PIDController(DriveConstants.kLeftP, DriveConstants.kLeftI, DriveConstants.kLeftD), //change in constants after characterizing
+      new PIDController(DriveConstants.kRightP, DriveConstants.kRightI, DriveConstants.kRightD),
+      m_drive::setVoltage, 
+      m_drive);
 
-      SmartDashboard.putNumber("Left wheel speeds", m_drive.getCurrentSpeeds().leftMetersPerSecond);
-      SmartDashboard.putNumber("Left Desired Speeds", leftController.getSetpoint());
-      SmartDashboard.putNumber("Left Position Error", leftController.getPositionError());
+  // var leftController = new PIDController(DriveConstants.kLeftP, DriveConstants.kLeftI, DriveConstants.kLeftD);
+  // var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
+  //   RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
+  //   m_drive::getPose2d, 
+  //   // new RamseteController(1.0, 0.4), //tune here
+  //   disabledRamsete,
+  //   new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
+  //   m_drive.m_kinematics, m_drive::getCurrentSpeeds,
+  //   leftController, //change in constants after characterizing
+  //   rightController,
+  //   (leftVolts, rightVolts) -> {
+  //     m_drive.setVoltage(leftVolts, rightVolts);
+
+  //     SmartDashboard.putNumber("Left wheel speeds", m_drive.getCurrentSpeeds().leftMetersPerSecond);
+  //     SmartDashboard.putNumber("Left Desired Speeds", leftController.getSetpoint());
+  //     SmartDashboard.putNumber("Left Position Error", leftController.getPositionError());
 
 
-      SmartDashboard.putNumber("Right wheel speeds", m_drive.getCurrentSpeeds().rightMetersPerSecond);
-      SmartDashboard.putNumber("Right Desired Speeds", rightController.getSetpoint());
-      SmartDashboard.putNumber("Right Position Error", rightController.getPositionError());
+  //     SmartDashboard.putNumber("Right wheel speeds", m_drive.getCurrentSpeeds().rightMetersPerSecond);
+  //     SmartDashboard.putNumber("Right Desired Speeds", rightController.getSetpoint());
+  //     SmartDashboard.putNumber("Right Position Error", rightController.getPositionError());
 
-    },
-    m_drive);
+  //   },
+  //   m_drive);
     
     // Trajectory d4TOd8
 

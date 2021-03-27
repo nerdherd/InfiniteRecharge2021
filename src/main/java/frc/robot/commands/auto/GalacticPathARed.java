@@ -90,13 +90,13 @@ public class GalacticPathARed extends SequentialCommandGroup {
             // prevTime = time;
       
         }, 
-          m_drive);
+        m_drive);
     
 
     addCommands(
-    new ParallelRaceGroup(new IntakeBalls(), driveStartToFinish),
-    new DriveStraightContinuous(m_drive, 0, 0),
-    new Stow()
+      new ParallelRaceGroup(new IntakeBalls(), driveStartToFinish),
+      new DriveStraightContinuous(m_drive, 0, 0),
+      new Stow()
     );
   
   }

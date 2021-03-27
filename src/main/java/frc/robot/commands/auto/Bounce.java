@@ -66,14 +66,14 @@ public class Bounce extends SequentialCommandGroup {
       config);
 
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
-      m_drive::getPose2d, 
-      new RamseteController(2.0, 0.7), //tune here
-      new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
-      m_drive.m_kinematics, m_drive::getCurrentSpeeds,
-      new PIDController(DriveConstants.kLeftP, DriveConstants.kLeftI, DriveConstants.kLeftD), //change in constants after characterizing
-      new PIDController(DriveConstants.kRightP, DriveConstants.kRightI, DriveConstants.kRightD),
-      m_drive::setVoltage, 
-      m_drive);
+        m_drive::getPose2d, 
+        new RamseteController(2.0, 0.7), //tune here
+        new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
+        m_drive.m_kinematics, m_drive::getCurrentSpeeds,
+        new PIDController(DriveConstants.kLeftP, DriveConstants.kLeftI, DriveConstants.kLeftD), //change in constants after characterizing
+        new PIDController(DriveConstants.kRightP, DriveConstants.kRightI, DriveConstants.kRightD),
+        m_drive::setVoltage, 
+        m_drive);
 
     addCommands(
       new InstantCommand(() -> m_drive.setPose(new Pose2d(0.762, 2.032, new Rotation2d(0)))),  

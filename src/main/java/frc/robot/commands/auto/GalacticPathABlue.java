@@ -90,15 +90,15 @@ public class GalacticPathABlue extends SequentialCommandGroup {
           SmartDashboard.putNumber("Velocity Position Error", rightController.getPositionError());
           // prevTime = time;
     
-      }, 
+        }, 
         m_drive);
     
 
     addCommands(
-    new InstantCommand(() -> m_drive.setPose(new Pose2d(0.762, 1.524, new Rotation2d(0)))),  
-    new ParallelRaceGroup(new IntakeBalls(), driveStartToFinish),
-    new DriveStraightContinuous(m_drive, 0, 0),
-    new Stow()
+      new InstantCommand(() -> m_drive.setPose(new Pose2d(0.762, 1.524, new Rotation2d(0)))),  
+      new ParallelRaceGroup(new IntakeBalls(), driveStartToFinish),
+      new DriveStraightContinuous(m_drive, 0, 0)
+      // new Stow()
     );
   
   }

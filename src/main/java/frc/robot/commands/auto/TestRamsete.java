@@ -114,7 +114,7 @@ public class TestRamsete extends SequentialCommandGroup {
 
     addCommands(
     // new InstantCommand(() -> m_drive.setPose(new Pose2d(0.762, -0.762, new Rotation2d(Math.PI/2)))),  
-    driveStartToFinish
+      driveStartToFinish
     // new DriveStraightContinuous(m_drive, 0, 0)
     
     );

@@ -83,39 +83,39 @@ public class Slalom extends SequentialCommandGroup {
     var leftController = new PIDController(DriveConstants.kLeftP, 0, 0);
     var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
-    m_drive::getPose2d, 
-    // disabledRamsete,
-    new RamseteController(1.0, 0.2),
-    new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
-    m_drive.m_kinematics, m_drive::getCurrentSpeeds,
-    leftController,
-    rightController, 
-    (leftVolts, rightVolts) -> {
-      m_drive.setVoltage(leftVolts, rightVolts);
+      m_drive::getPose2d, 
+      // disabledRamsete,
+      new RamseteController(1.0, 0.2),
+      new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
+      m_drive.m_kinematics, m_drive::getCurrentSpeeds,
+      leftController,
+      rightController, 
+      (leftVolts, rightVolts) -> {
+        m_drive.setVoltage(leftVolts, rightVolts);
 
-      Trajectory.State desiredPose = startToFinish.sample(t);
-      SmartDashboard.getNumber("DesiredXPos", desiredPose.poseMeters.getX());
-      SmartDashboard.getNumber("DesiredYPos", desiredPose.poseMeters.getY());
+        Trajectory.State desiredPose = startToFinish.sample(t);
+        SmartDashboard.getNumber("DesiredXPos", desiredPose.poseMeters.getX());
+        SmartDashboard.getNumber("DesiredYPos", desiredPose.poseMeters.getY());
 
-      SmartDashboard.getNumber("ActualYPos", m_drive.getXpos());
-      SmartDashboard.getNumber("ActualYPos", m_drive.getYpos());
+        SmartDashboard.getNumber("ActualYPos", m_drive.getXpos());
+        SmartDashboard.getNumber("ActualYPos", m_drive.getYpos());
 
-      SmartDashboard.getNumber("DesiredHeading", desiredPose.poseMeters.getRotation().getDegrees());
-      SmartDashboard.getNumber("ActualHeading", m_drive.getAngle().getDegrees());
-      
-      SmartDashboard.putNumber("Left Wheel speeds", m_drive.getCurrentSpeeds().leftMetersPerSecond);
-      SmartDashboard.putNumber("Left Desired Speeds", leftController.getSetpoint());
-      SmartDashboard.putNumber("Left Position Error", leftController.getPositionError());
+        SmartDashboard.getNumber("DesiredHeading", desiredPose.poseMeters.getRotation().getDegrees());
+        SmartDashboard.getNumber("ActualHeading", m_drive.getAngle().getDegrees());
+        
+        SmartDashboard.putNumber("Left Wheel speeds", m_drive.getCurrentSpeeds().leftMetersPerSecond);
+        SmartDashboard.putNumber("Left Desired Speeds", leftController.getSetpoint());
+        SmartDashboard.putNumber("Left Position Error", leftController.getPositionError());
 
-      SmartDashboard.putNumber("Right Wheel speeds", m_drive.getCurrentSpeeds().rightMetersPerSecond);
-      SmartDashboard.putNumber("Right Desired Speeds", rightController.getSetpoint());
-      SmartDashboard.putNumber("Velocity Position Error", rightController.getPositionError());
+        SmartDashboard.putNumber("Right Wheel speeds", m_drive.getCurrentSpeeds().rightMetersPerSecond);
+        SmartDashboard.putNumber("Right Desired Speeds", rightController.getSetpoint());
+        SmartDashboard.putNumber("Velocity Position Error", rightController.getPositionError());
 
-  }, 
-    m_drive);  
+      }, 
+      m_drive);  
     
     addCommands(
-    driveStartToFinish
+      driveStartToFinish
     );
   
   }

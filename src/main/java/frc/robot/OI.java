@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import com.nerdherd.lib.drivetrain.auto.DriveDistanceMotionMagic;
 import com.nerdherd.lib.drivetrain.auto.DriveStraightContinuous;
 import com.nerdherd.lib.drivetrain.auto.ResetDriveEncoders;
 import com.nerdherd.lib.drivetrain.auto.ResetGyro;
@@ -40,6 +41,7 @@ import frc.robot.commands.auto.Lightspeed;
 import frc.robot.commands.auto.Slalom;
 import frc.robot.commands.auto.TestRamsete;
 import frc.robot.commands.auto.TestRamseteTurn;
+import frc.robot.commands.auto.Trapezoid;
 // import frc.robot.commands.AutolineShot;
 // import frc.robot.commands.ShootBall;
 // import frc.robot.commands.ShootBallTemp;
@@ -146,8 +148,11 @@ public class OI extends DefaultOI {
         // panelRotation_9.whenPressed(new PanelRotate());
         // wallShot_11.whenPressed(new WallShot());
         // SmartDashboard.putData("Run Forward", new DriveStraightContinuous(Robot.drive, 2000, 0.5));
+        SmartDashboard.putData("Full Send", new DriveStraightContinuous(Robot.drive, 200000, 0.125));
+        SmartDashboard.putData("REAL TRAP", new InstantCommand(() -> Robot.drive.setPositionMotionMagic(200000, 200000, 2000, 1500)));
+        SmartDashboard.putData("trapezoid", new Trapezoid(10, Robot.drive));
         SmartDashboard.putData("Slalom Drive", new Slalom(Robot.drive));
-        SmartDashboard.putData("Ramp Test", new DriveCharacterizationTest(Robot.drive, 0.2));
+        SmartDashboard.putData("Ramp Test", new DriveCharacterizationTest(Robot.drive, 0.25));
         SmartDashboard.putData("Bounce Drive", new Bounce(Robot.drive));
         SmartDashboard.putData("Bounce Backwards Drive", new BounceBackwards(Robot.drive));
         SmartDashboard.putData("Lightspeed Drive", new Lightspeed(Robot.drive));

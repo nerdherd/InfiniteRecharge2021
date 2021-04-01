@@ -46,36 +46,56 @@ public class TestRamsete extends SequentialCommandGroup {
       m_drive.m_kinematics, 
       DriveConstants.kRamseteMaxVolts);
     
-    var velocityConstraint = new MaxVelocityConstraint(100);
+    // var velocityConstraint = new MaxVelocityConstraint(100);
 
     TrajectoryConfig config = new TrajectoryConfig(DriveConstants.kDriveMaxVel, DriveConstants.kDriveMaxAccel)
     .setKinematics(m_drive.m_kinematics)
-    .addConstraints(List.of(autoVoltageConstraint,velocityConstraint));
+    ;
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
     new Pose2d(0, 0, new Rotation2d(0)), 
     List.of(
       new Translation2d(4,0)),
-    new Pose2d(6, 0, new Rotation2d(0)), 
+    new Pose2d(8, 0, new Rotation2d(0)), 
     config);
 
-  //   RamseteController disabledRamsete = new RamseteController() {
-  //     @Override
-  //     public ChassisSpeeds calculate(Pose2d currentPose, Pose2d poseRef, double linearVelocityRefMeters,
-  //             double angularVelocityRefRadiansPerSecond) {
-  //         return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
-  //     }
-  // };
+    RamseteController disabledRamsete = new RamseteController() {
+      @Override
+      public ChassisSpeeds calculate(Pose2d currentPose, Pose2d poseRef, double linearVelocityRefMeters,
+              double angularVelocityRefRadiansPerSecond) {
+          return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
+      }
+  };
 
   RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
-      m_drive::getPose2d, 
-      new RamseteController(1.0, 0.2), //tune here
-      new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
-      m_drive.m_kinematics, m_drive::getCurrentSpeeds,
-      new PIDController(DriveConstants.kLeftP, DriveConstants.kLeftI, DriveConstants.kLeftD), //change in constants after characterizing
-      new PIDController(DriveConstants.kRightP, DriveConstants.kRightI, DriveConstants.kRightD),
-      m_drive::setVoltage, 
-      m_drive);
+            m_drive::getPose2d, 
+            // disabledRamsete,
+            new RamseteController(2.0, 0.7),
+            // new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
+            m_drive.m_kinematics, 
+            (leftVel, rightVel) -> {
+              m_drive.setVelocity(3886 * leftVel, 3886 * rightVel);
+
+            SmartDashboard.putNumber("Left vel", leftVel);
+            SmartDashboard.putNumber("Right vel", rightVel);
+
+            
+            // leftController,
+            // rightController, 
+            // (leftVolts, rightVolts) -> {
+            //   m_drive.setVoltage(leftVolts, rightVolts);
+            
+            // SmartDashboard.putNumber("Left Wheel speeds", m_drive.getCurrentSpeeds().leftMetersPerSecond);
+            // SmartDashboard.putNumber("Left Desired Speeds", leftController.getSetpoint());
+            // SmartDashboard.putNumber("Left Position Error", leftController.getPositionError());
+      
+            // SmartDashboard.putNumber("Right Wheel speeds", m_drive.getCurrentSpeeds().rightMetersPerSecond);
+            // SmartDashboard.putNumber("Right Desired Speeds", rightController.getSetpoint());
+            // SmartDashboard.putNumber("Velocity Position Error", rightController.getPositionError());
+            // prevTime = time;
+      
+        }, 
+        m_drive);
 
   // var leftController = new PIDController(DriveConstants.kLeftP, DriveConstants.kLeftI, DriveConstants.kLeftD);
   // var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
@@ -114,8 +134,8 @@ public class TestRamsete extends SequentialCommandGroup {
 
     addCommands(
     // new InstantCommand(() -> m_drive.setPose(new Pose2d(0.762, -0.762, new Rotation2d(Math.PI/2)))),  
-      driveStartToFinish
-    // new DriveStraightContinuous(m_drive, 0, 0)
+      driveStartToFinish,
+    new DriveStraightContinuous(m_drive, 0, 0)
     
     );
   

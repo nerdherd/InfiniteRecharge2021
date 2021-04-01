@@ -76,6 +76,9 @@ public class Drive extends ShiftingDrivetrain {
      super.m_leftMaster.configCurrentLimitPeak(50);
      super.m_rightMaster.configCurrentLimitPeak(50);
 
+    //  super.m_leftMaster.configMotionMagic(2, 1);
+    //  super.m_rightMaster.configMotionMagic(2, 1);
+
      super.m_leftSlaves[0].configCurrentLimitContinuous(50);
      super.m_rightSlaves[0].configCurrentLimitContinuous(50);
      super.m_leftSlaves[0].configCurrentLimitPeak(50);

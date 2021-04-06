@@ -65,6 +65,11 @@ public class Bounce extends SequentialCommandGroup {
       new Pose2d(8.382, 2.286, new Rotation2d(Math.PI)), 
       config);
 
+      // Trajectory startA3 = TrajectoryGenerator.generateTrajectory(new Pose(0.762, 2.286), List.of(
+      //   new Trans
+      // ), end, config)
+
+
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
         m_drive::getPose2d, 
         new RamseteController(2.0, 0.7), //tune here

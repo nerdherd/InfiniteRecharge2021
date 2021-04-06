@@ -46,30 +46,31 @@ public class BarrelRacing extends SequentialCommandGroup {
         DriveConstants.kRamseteMaxVolts);
 
     TrajectoryConfig config = new TrajectoryConfig(DriveConstants.kDriveMaxVel, DriveConstants.kDriveMaxAccel)
-      .setKinematics(m_drive.m_kinematics)
-      .addConstraint(autoVoltageConstraint);
+      .setKinematics(m_drive.m_kinematics);
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
-      new Pose2d(1.143, 1.905, new Rotation2d(0)), 
+      new Pose2d(1.905, -1.143, new Rotation2d(-Math.PI / 2)), 
       List.of(
-        new Translation2d(1.651,2.032),
-        new Translation2d(3.048,2.032), 
-        new Translation2d(4.064,1.905),
-        new Translation2d(4.318,1.524),
-        new Translation2d(3.302,1.524),
-        new Translation2d(4.064,1.905),
-        new Translation2d(5.842,2.159),
-        new Translation2d(6.858,3.048),
-        new Translation2d(6.604,3.683),
-        new Translation2d(5.588,3.302),
-        new Translation2d(5.842,2.159),
-        new Translation2d(6.858,1.016),
-        new Translation2d(8.001,1.270),
-        new Translation2d(8.255,1.651),
-        new Translation2d(6.858,2.032),
-        new Translation2d(5.842,2.159),
-        new Translation2d(4.064,2.540)),
-      new Pose2d(1.143, 1.905, new Rotation2d(Math.PI)), 
+        new Translation2d(2.032,-1.651),
+        new Translation2d(2.032,-3.048), 
+        new Translation2d(2.159,-4.191),
+        new Translation2d(1.27,-4.826),
+        new Translation2d(0.635,-3.81),
+        new Translation2d(1.651,-2.667),
+        new Translation2d(2.286,-4.191),
+        new Translation2d(2.159,-5.842),
+        new Translation2d(3.048,-6.858),
+        new Translation2d(3.81,-6.604),
+        new Translation2d(3.556,-5.461),
+        new Translation2d(2.159,-5.842),
+        new Translation2d(1.016,-6.858),
+        new Translation2d(1.016,-8.001),
+        new Translation2d(1.651,-8.255),
+        new Translation2d(2.286,-7.62),
+        new Translation2d(2.032,-6.858),
+        new Translation2d(2.159,-5.842),
+        new Translation2d(2.54,-4.064)),
+      new Pose2d(2.6, -1.143, new Rotation2d(Math.PI / 2)), 
       config);
 
     RamseteController disabledRamsete = new RamseteController() {
@@ -83,29 +84,37 @@ public class BarrelRacing extends SequentialCommandGroup {
         var leftController = new PIDController(DriveConstants.kLeftP, 0, 0);
         var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
         RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
-          m_drive::getPose2d, 
-          disabledRamsete,
-          new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
-          m_drive.m_kinematics, m_drive::getCurrentSpeeds,
-          leftController,
-          rightController, 
-          (leftVolts, rightVolts) -> {
-            m_drive.setVoltage(leftVolts, rightVolts);
-            
-            SmartDashboard.putNumber("Left Wheel speeds", m_drive.getCurrentSpeeds().leftMetersPerSecond);
-            SmartDashboard.putNumber("Left Desired Speeds", leftController.getSetpoint());
-            SmartDashboard.putNumber("Left Position Error", leftController.getPositionError());
-      
-            SmartDashboard.putNumber("Right Wheel speeds", m_drive.getCurrentSpeeds().rightMetersPerSecond);
-            SmartDashboard.putNumber("Right Desired Speeds", rightController.getSetpoint());
-            SmartDashboard.putNumber("Velocity Position Error", rightController.getPositionError());
-           // prevTime = time;
+    m_drive::getPose2d, 
+    // disabledRamsete,
+    new RamseteController(2.0, 0.6),
+    // new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
+    m_drive.m_kinematics, 
+    (leftVel, rightVel) -> {
+      m_drive.setVelocity(3886 * leftVel, 3886 * rightVel);
+
+    SmartDashboard.putNumber("Left vel", leftVel);
+    SmartDashboard.putNumber("Right vel", rightVel);
+
     
-          }, 
+    // leftController,
+    // rightController, 
+    // (leftVolts, rightVolts) -> {
+    //   m_drive.setVoltage(leftVolts, rightVolts);
+    
+    // SmartDashboard.putNumber("Left Wheel speeds", m_drive.getCurrentSpeeds().leftMetersPerSecond);
+    // SmartDashboard.putNumber("Left Desired Speeds", leftController.getSetpoint());
+    // SmartDashboard.putNumber("Left Position Error", leftController.getPositionError());
+
+    // SmartDashboard.putNumber("Right Wheel speeds", m_drive.getCurrentSpeeds().rightMetersPerSecond);
+    // SmartDashboard.putNumber("Right Desired Speeds", rightController.getSetpoint());
+    // SmartDashboard.putNumber("Velocity Position Error", rightController.getPositionError());
+    // prevTime = time;
+
+}, 
           m_drive);
 
     addCommands(
-    new InstantCommand(() -> m_drive.setPose(new Pose2d(1.143, 1.905, new Rotation2d(0)))),  
+    new InstantCommand(() -> m_drive.setPose(new Pose2d(1.905, -1.143, new Rotation2d(Math.PI / 2)))),  
     driveStartToFinish,
     new DriveStraightContinuous(m_drive, 0, 0)
     

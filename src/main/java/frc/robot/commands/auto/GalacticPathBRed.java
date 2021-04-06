@@ -53,12 +53,12 @@ public class GalacticPathBRed extends SequentialCommandGroup {
     .addConstraint(autoVoltageConstraint);
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(2.667, -0.381, new Rotation2d(0)), 
+    new Pose2d(2.667, -0.381, new Rotation2d(-Math.PI/2)), 
     List.of(
       new Translation2d(2.794,-2.032),
       new Translation2d(1.778,-3.556), 
       new Translation2d(2.794,-5.08)),
-    new Pose2d(2.667, -8.763, new Rotation2d(Math.PI)), 
+      new Pose2d(2.1 , -8.382, new Rotation2d(-Math.PI/2)), 
     config);
 
     RamseteController disabledRamsete = new RamseteController() {
@@ -68,33 +68,41 @@ public class GalacticPathBRed extends SequentialCommandGroup {
             return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
           }
         };
-        var leftController = new PIDController(DriveConstants.kLeftP, 0, 0);
-        var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
+        // var leftController = new PIDController(DriveConstants.kLeftP, 0, 0);
+        // var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
         RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
           m_drive::getPose2d, 
-          disabledRamsete,
-          new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
-          m_drive.m_kinematics, m_drive::getCurrentSpeeds,
-          leftController,
-          rightController, 
-          (leftVolts, rightVolts) -> {
-            m_drive.setVoltage(leftVolts, rightVolts);
-            
-            SmartDashboard.putNumber("Left Wheel speeds", m_drive.getCurrentSpeeds().leftMetersPerSecond);
-            SmartDashboard.putNumber("Left Desired Speeds", leftController.getSetpoint());
-            SmartDashboard.putNumber("Left Position Error", leftController.getPositionError());
-      
-            SmartDashboard.putNumber("Right Wheel speeds", m_drive.getCurrentSpeeds().rightMetersPerSecond);
-            SmartDashboard.putNumber("Right Desired Speeds", rightController.getSetpoint());
-            SmartDashboard.putNumber("Velocity Position Error", rightController.getPositionError());
-            // prevTime = time;
-      
-          }, 
-          m_drive);
+          // disabledRamsete,
+          new RamseteController(2.0, 0.4),
+          // new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
+          m_drive.m_kinematics, 
+          (leftVel, rightVel) -> {
+            m_drive.setVelocity(3886 * leftVel, 3886 * rightVel);
+
+          SmartDashboard.putNumber("Left vel", leftVel);
+          SmartDashboard.putNumber("Right vel", rightVel);
+
+          
+          // leftController,
+          // rightController, 
+          // (leftVolts, rightVolts) -> {
+          //   m_drive.setVoltage(leftVolts, rightVolts);
+          
+          // SmartDashboard.putNumber("Left Wheel speeds", m_drive.getCurrentSpeeds().leftMetersPerSecond);
+          // SmartDashboard.putNumber("Left Desired Speeds", leftController.getSetpoint());
+          // SmartDashboard.putNumber("Left Position Error", leftController.getPositionError());
+    
+          // SmartDashboard.putNumber("Right Wheel speeds", m_drive.getCurrentSpeeds().rightMetersPerSecond);
+          // SmartDashboard.putNumber("Right Desired Speeds", rightController.getSetpoint());
+          // SmartDashboard.putNumber("Velocity Position Error", rightController.getPositionError());
+          // prevTime = time;
+    
+      }, 
+      m_drive); 
     
 
     addCommands(
-      new InstantCommand(() -> m_drive.setPose(new Pose2d(0.762, 3.048, new Rotation2d(0)))),  
+      new InstantCommand(() -> m_drive.setPose(new Pose2d(2.286, -0.762, new Rotation2d(Math.PI/2)))),  
       new ParallelRaceGroup(new IntakeBalls(), driveStartToFinish),
       new DriveStraightContinuous(m_drive, 0, 0)
       // new Stow()

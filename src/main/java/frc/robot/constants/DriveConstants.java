@@ -11,15 +11,15 @@ package frc.robot.constants;
  * Add your docs here.
  */
 public class DriveConstants {
-    public static final double kLeftP = 0.1097 * 2000 / 1856; //replace these
+    public static final double kLeftP = 0.1097 * 2000 / 1856 * 1.73 * 1.143; //replace these
 	public static final double kLeftI = 0;
 	public static final double kLeftD = 0;
 
-	public static final double kRightP = 0.1097 * 2000 / 1856; //2.12 3/31 for talon
+	public static final double kRightP = 0.1097 * 2000 / 1856 * 1.73 * 1.143; //2.12 3/31 for talon
 	public static final double kRightI = 0;
     public static final double kRightD = 0;
     
-    public static final double kDriveMaxVel = 1.5;
+    public static final double kDriveMaxVel = 2.0;
     public static final double kDriveMaxAccel = 1.0;
     
     public static final double kGoalMetersY = -2.404;
@@ -62,8 +62,8 @@ public class DriveConstants {
     public static double kRightF = 0.005661; //0.005661
 
     public static int kMaxVelocity = 10000;
-    public static double kLeftTicksPerFoot = 11508;
-    public static double kRightTicksPerFoot = 11508;
+    public static double kLeftTicksPerFoot = (11508 + 11969) / 2;
+    public static double kRightTicksPerFoot = (11508 + 11969) / 2;
 
     public static double kTrackWidth = 0.678;
 	public static final double kMaxCentripetalAcceleration = 2.1;

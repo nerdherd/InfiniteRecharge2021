@@ -43,22 +43,17 @@ public class GalacticPathARed extends SequentialCommandGroup {
   public GalacticPathARed(Drivetrain drive) {
     m_drive = drive;
 
-    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
-      new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA),
-      m_drive.m_kinematics, 
-      DriveConstants.kRamseteMaxVolts);
 
     TrajectoryConfig config = new TrajectoryConfig(DriveConstants.kDriveMaxVel, DriveConstants.kDriveMaxAccel)
-    .setKinematics(m_drive.m_kinematics)
-    .addConstraint(autoVoltageConstraint);
+    .setKinematics(m_drive.m_kinematics);
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
       new Pose2d(2.286, -0.762, new Rotation2d(-Math.PI/2)), 
       List.of(
         new Translation2d(2.286,-2.032),
-        new Translation2d(1.651,-3.683), 
+        new Translation2d(1.6,-3.683), 
         new Translation2d(3.81,-4.572)),
-      new Pose2d(2.667, -8.382, new Rotation2d(-Math.PI/2)), 
+      new Pose2d(1.1, -8.0, new Rotation2d(-Math.PI/2)), 
       config);
 
       RamseteController disabledRamsete = new RamseteController() {
@@ -72,10 +67,17 @@ public class GalacticPathARed extends SequentialCommandGroup {
           // var rightController = new PIDController(DriveConstants.kRightP, 0, 0);
           RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
             m_drive::getPose2d, 
-            new RamseteController(2.0, 0.7),
+            // disabledRamsete,
+            new RamseteController(2.0, 0.4),
             // new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
             m_drive.m_kinematics, 
-            m_drive::setVelocity,
+            (leftVel, rightVel) -> {
+              m_drive.setVelocity(3886 * leftVel, 3886 * rightVel);
+
+            SmartDashboard.putNumber("Left vel", leftVel);
+            SmartDashboard.putNumber("Right vel", rightVel);
+
+            
             // leftController,
             // rightController, 
             // (leftVolts, rightVolts) -> {
@@ -90,15 +92,14 @@ public class GalacticPathARed extends SequentialCommandGroup {
             // SmartDashboard.putNumber("Velocity Position Error", rightController.getPositionError());
             // prevTime = time;
       
-        // }, 
+        }, 
         m_drive);
     
 
     addCommands(
-      // new ParallelRaceGroup(new IntakeBalls(), driveStartToFinish),
-      driveStartToFinish,
-      new DriveStraightContinuous(m_drive, 0, 0),
-      new Stow()
+      new ParallelRaceGroup(new IntakeBalls(), driveStartToFinish),
+      new DriveStraightContinuous(m_drive, 0, 0)
+      // new Stow()
     );
   
   }

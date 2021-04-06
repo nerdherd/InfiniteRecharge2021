@@ -69,8 +69,8 @@ public class TestRamsete extends SequentialCommandGroup {
 
   RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
             m_drive::getPose2d, 
-            // disabledRamsete,
-            new RamseteController(2.0, 0.7),
+            disabledRamsete,
+            // new RamseteController(2.0, 0.7),
             // new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
             m_drive.m_kinematics, 
             (leftVel, rightVel) -> {

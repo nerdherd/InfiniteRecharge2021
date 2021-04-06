@@ -54,18 +54,17 @@ public class Slalom extends SequentialCommandGroup {
         0.5);
 
     TrajectoryConfig config = new TrajectoryConfig(DriveConstants.kDriveMaxVel, DriveConstants.kDriveMaxAccel)
-        .setKinematics(m_drive.m_kinematics)
-        .addConstraints(List.of(autoVoltageConstraint, autoCentriptetalConstraint));
+        .setKinematics(m_drive.m_kinematics);
 
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
         new Pose2d(0.762, -0.762, new Rotation2d(-Math.PI / 2)),
-        List.of(new Translation2d(0.762, -1.905), new Translation2d(1.524, -2.286), new Translation2d(2.286, -3.048),
-            new Translation2d(2.286, -4.572), new Translation2d(2.286, -6.35), new Translation2d(1.524, -6.9),
-            new Translation2d(1.016, -6.858), new Translation2d(0.7, -7.62), new Translation2d(1.524, -8.509),
-            new Translation2d(2.54, -7.62), new Translation2d(2.032, -6.858), new Translation2d(1.524, -6.858),
-            new Translation2d(0.635, -6.35), new Translation2d(0.4, -3.048), new Translation2d(1, -2.5),
-            new Translation2d(1.524, -2.286), new Translation2d(1.7, -1.905)),
-        new Pose2d(2, -0.762, new Rotation2d(Math.PI / 2)), config);
+        List.of(new Translation2d(0.762, -1.524), new Translation2d(1.524, -2.286),
+            new Translation2d(2.286, -3.048), new Translation2d(2.667, -4.672),
+            new Translation2d(2.286, -6.096), new Translation2d(1.524, -6.858), new Translation2d(0.762, -7.62),
+            new Translation2d(1.524, -8.382), new Translation2d(2.286, -7.62), new Translation2d(1.524, -6.858),
+            new Translation2d(0.762, -6.096), new Translation2d(0.508, -4.572), new Translation2d(0.762, -3.048),
+            new Translation2d(1.524, -2.286), new Translation2d(2.286, -1.524)),
+        new Pose2d(2.286, -0.762, new Rotation2d(Math.PI / 2)), config);
 
     // ArrayList<Double> xPoses = new ArrayList<Double>();
     // ArrayList<Double> yPoses = new ArrayList<Double>();    
@@ -116,7 +115,7 @@ public class Slalom extends SequentialCommandGroup {
     RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
     m_drive::getPose2d, 
     // disabledRamsete,
-    new RamseteController(2.0, 0.7),
+    new RamseteController(2.0, 0.7 ),
     // new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
     m_drive.m_kinematics, 
     (leftVel, rightVel) -> {

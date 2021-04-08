@@ -53,29 +53,29 @@ public class BounceBackwards extends SequentialCommandGroup {
     configBackwards.setReversed(true);  
 
     Trajectory startToA3 = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(2.286, -0.762, new Rotation2d(-Math.PI / 2)), 
+    new Pose2d(2.032, -0.762, new Rotation2d(-Math.PI / 2)), 
     List.of(
-      new Translation2d(2.286,-2.286)),
+      new Translation2d(2.794,-2.032)),
       new Pose2d(3.810,-2.286, new Rotation2d(0)),  
     config);
 
     Trajectory A3toA6 = TrajectoryGenerator.generateTrajectory(
     new Pose2d(3.810,-2.286, new Rotation2d(0)), 
     List.of(
-      new Translation2d(2.032,-2.667),  
+      new Translation2d(1.778,-2.45),  
       new Translation2d(0.762,-3.810),
-      new Translation2d(1.143,-4.572)),
-      new Pose2d(3.810,-4.572, new Rotation2d(Math.PI)),  
+      new Translation2d(1.524,-4.5)),
+      new Pose2d(3.810,-4.5, new Rotation2d(Math.PI)),  
     configBackwards);
 
 
     Trajectory A6toA9 = TrajectoryGenerator.generateTrajectory(
     new Pose2d(3.810,-4.572, new Rotation2d(Math.PI)), 
     List.of(
-      new Translation2d(0.762, -4.826),  
+      new Translation2d(0.762, -4.572),
+      // new Translation2d(0.762, -5.334),  
       new Translation2d(0.762, -6.096),
-      new Translation2d(0.889, -6.858),
-      new Translation2d(0.762, -6.096)),
+      new Translation2d(2.54, -6.731)),
       new Pose2d(3.810, -6.858, new Rotation2d(0)),  
     config);
     
@@ -83,9 +83,9 @@ public class BounceBackwards extends SequentialCommandGroup {
     Trajectory A9toFinish = TrajectoryGenerator.generateTrajectory(
     new Pose2d(3.810, -6.858, new Rotation2d(0)), 
     List.of(
-      new Translation2d(2.667,-7.239)
+      new Translation2d(2.794,-7.239)
       ),
-      new Pose2d(2.286,-8.382, new Rotation2d(-Math.PI / 2)),  
+      new Pose2d(2.286,-8.382, new Rotation2d(3 * Math.PI / 2)),  
     configBackwards);
 
     RamseteCommand one = new RamseteCommand(startToA3, 
@@ -150,7 +150,7 @@ public class BounceBackwards extends SequentialCommandGroup {
         RamseteCommand three = new RamseteCommand(A6toA9, 
     m_drive::getPose2d, 
     // disabledRamsete,
-    new RamseteController(2.0, 0.4),
+    new RamseteController(1.0, 0.2),
     // new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
     m_drive.m_kinematics, 
     (leftVel, rightVel) -> {
@@ -209,7 +209,7 @@ public class BounceBackwards extends SequentialCommandGroup {
 
     addCommands(
 
-      new InstantCommand(() -> m_drive.setPose(new Pose2d(2.286, -0.762, new Rotation2d(Math.PI / 2)))),  
+      new InstantCommand(() -> m_drive.setPose(new Pose2d(2.032, -0.762, new Rotation2d(Math.PI / 2)))),  
       one,
       two,
       three,

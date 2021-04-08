@@ -46,8 +46,8 @@ public class PowerPort extends SequentialCommandGroup {
   public PowerPort(Drivetrain drive) {
     m_drive = drive;
 
-    double shootingY = 0; //fix
-    double reIntroY = 0; //fix
+    double shootingY = -2; //fix
+    double reIntroY = -5; //fix
 
 
     TrajectoryConfig config = new TrajectoryConfig(DriveConstants.kDriveMaxVel, DriveConstants.kDriveMaxAccel)
@@ -104,45 +104,43 @@ m_drive);
 
       new InstantCommand(() -> m_drive.setPose(new Pose2d(2.286, shootingY, new Rotation2d(Math.PI / 2)))),  //set pose
 
-      new InstantCommand(() -> new TrenchShot()),
-      new WaitCommand(2.75),
-      new InstantCommand(() -> new ShootBall()), 
-      new WaitCommand(2.75),
+      new ParallelRaceGroup(new TrenchShot(), new WaitCommand(2.75)),
+      new ParallelRaceGroup(new ShootBall(), new WaitCommand(2.75)),
       driveToReIntro,
-      new InstantCommand(() -> new IntakeBalls()),
-      new WaitCommand(2.75),
-      new InstantCommand(() -> new Stow()),
-      driveToShoot,
+      new ParallelRaceGroup(new IntakeBalls(), new WaitCommand(2.75))
 
-      new InstantCommand(() -> new TrenchShot()),
-      new WaitCommand(2.75),
-      new InstantCommand(() -> new ShootBall()), 
-      new WaitCommand(2.75),
-      driveToReIntro,
-      new InstantCommand(() -> new IntakeBalls()),
-      new WaitCommand(2.75),
-      new InstantCommand(() -> new Stow()),
-      driveToShoot,
+      // new InstantCommand(() -> new Stow()),
+      // driveToShoot
 
-      new InstantCommand(() -> new TrenchShot()),
-      new WaitCommand(2.75),
-      new InstantCommand(() -> new ShootBall()), 
-      new WaitCommand(2.75),
-      driveToReIntro,
-      new InstantCommand(() -> new IntakeBalls()),
-      new WaitCommand(2.75),
-      new InstantCommand(() -> new Stow()),
-      driveToShoot,
+      // new InstantCommand(() -> new TrenchShot()),
+      // new WaitCommand(2.75),
+      // new InstantCommand(() -> new ShootBall()), 
+      // new WaitCommand(2.75),
+      // driveToReIntro,
+      // new InstantCommand(() -> new IntakeBalls()),
+      // new WaitCommand(2.75),
+      // // new InstantCommand(() -> new Stow()),
+      // driveToShoot,
+
+      // new InstantCommand(() -> new TrenchShot()),
+      // new WaitCommand(2.75),
+      // new InstantCommand(() -> new ShootBall()), 
+      // new WaitCommand(2.75),
+      // driveToReIntro,
+      // new InstantCommand(() -> new IntakeBalls()),
+      // new WaitCommand(2.75),
+      // // new InstantCommand(() -> new Stow()),
+      // driveToShoot,
       
-      new InstantCommand(() -> new TrenchShot()),
-      new WaitCommand(2.75),
-      new InstantCommand(() -> new ShootBall()), 
-      new WaitCommand(2.75),
-      driveToReIntro,
-      new InstantCommand(() -> new IntakeBalls()),
-      new WaitCommand(2.75),
-      new InstantCommand(() -> new Stow()),
-      driveToShoot
+      // new InstantCommand(() -> new TrenchShot()),
+      // new WaitCommand(2.75),
+      // new InstantCommand(() -> new ShootBall()), 
+      // new WaitCommand(2.75),
+      // driveToReIntro,
+      // new InstantCommand(() -> new IntakeBalls()),
+      // new WaitCommand(2.75),
+      // // new InstantCommand(() -> new Stow()),
+      // driveToShoot
       
     );
   

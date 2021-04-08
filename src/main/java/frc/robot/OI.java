@@ -37,7 +37,9 @@ import frc.robot.commands.auto.GalacticPathABlue;
 import frc.robot.commands.auto.GalacticPathARed;
 import frc.robot.commands.auto.GalacticPathBBlue;
 import frc.robot.commands.auto.GalacticPathBRed;
+import frc.robot.commands.auto.GalacticReal;
 import frc.robot.commands.auto.Lightspeed;
+import frc.robot.commands.auto.PowerPort;
 import frc.robot.commands.auto.Slalom;
 import frc.robot.commands.auto.TestRamsete;
 import frc.robot.commands.auto.TestRamseteTurn;
@@ -149,6 +151,8 @@ public class OI extends DefaultOI {
         // wallShot_11.whenPressed(new WallShot());
         // SmartDashboard.putData("Run Forward", new DriveStraightContinuous(Robot.drive, 2000, 0.5));
         SmartDashboard.putData("Full Send", new DriveStraightContinuous(Robot.drive, 200000, 0.125));
+        SmartDashboard.putData("FJFJFJFJFJFJFJFJFJF", new GalacticReal(Robot.drive));
+        SmartDashboard.putData("PowerPort", new PowerPort(Robot.drive));
         SmartDashboard.putData("REAL TRAP", new InstantCommand(() -> Robot.drive.setPositionMotionMagic(200000, 200000, 2000, 1500)));
         SmartDashboard.putData("trapezoid", new Trapezoid(10, Robot.drive));
         SmartDashboard.putData("Slalom Drive", new Slalom(Robot.drive));

@@ -51,26 +51,25 @@ public class BarrelRacing extends SequentialCommandGroup {
     Trajectory startToFinish = TrajectoryGenerator.generateTrajectory(
       new Pose2d(1.905, -1.143, new Rotation2d(-Math.PI / 2)), 
       List.of(
-        new Translation2d(2.032,-1.651),
         new Translation2d(2.032,-3.048), 
         new Translation2d(2.159,-4.191),
         new Translation2d(1.27,-4.826),
-        new Translation2d(0.635,-3.81),
-        new Translation2d(1.651,-2.667),
-        new Translation2d(2.286,-4.191),
+        new Translation2d(0.508,-3.81),
+        new Translation2d(1.524,-2.667),
+        new Translation2d(2.413,-4.191),
         new Translation2d(2.159,-5.842),
-        new Translation2d(3.048,-6.858),
-        new Translation2d(3.81,-6.604),
-        new Translation2d(3.556,-5.461),
-        new Translation2d(2.159,-5.842),
+        new Translation2d(2.286,-6.858),
+        new Translation2d(3.81,-6.731),
+        new Translation2d(3.556, -5.334),
+        new Translation2d(2.159,-5.588),
         new Translation2d(1.016,-6.858),
-        new Translation2d(1.016,-8.001),
-        new Translation2d(1.651,-8.255),
+        new Translation2d(0.889,-8.128),
+        new Translation2d(1.651,-8.382),
         new Translation2d(2.286,-7.62),
-        new Translation2d(2.032,-6.858),
-        new Translation2d(2.159,-5.842),
-        new Translation2d(2.54,-4.064)),
-      new Pose2d(2.6, -1.143, new Rotation2d(Math.PI / 2)), 
+        new Translation2d(2.286,-7.62),
+        new Translation2d(2.159,-5.842)),
+
+      new Pose2d(1.905, -1.143, new Rotation2d(Math.PI / 2)), 
       config);
 
     RamseteController disabledRamsete = new RamseteController() {
@@ -86,7 +85,7 @@ public class BarrelRacing extends SequentialCommandGroup {
         RamseteCommand driveStartToFinish = new RamseteCommand(startToFinish, 
     m_drive::getPose2d, 
     // disabledRamsete,
-    new RamseteController(2.0, 0.6),
+    new RamseteController(2.0, 0.4),
     // new SimpleMotorFeedforward(DriveConstants.kramseteS, DriveConstants.kramseteV, DriveConstants.kramseteA), //change after Characterizing
     m_drive.m_kinematics, 
     (leftVel, rightVel) -> {
@@ -122,3 +121,4 @@ public class BarrelRacing extends SequentialCommandGroup {
   
   }
 }
+

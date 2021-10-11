@@ -8,6 +8,7 @@
 package frc.robot;
 
 import com.nerdherd.lib.drivetrain.teleop.ArcadeDrive;
+import com.nerdherd.lib.drivetrain.teleop.TankDrive;
 import com.nerdherd.lib.logging.NerdyBadlog;
 import com.nerdherd.lib.misc.AutoChooser;
 import com.nerdherd.lib.motor.commands.ResetSingleMotorEncoder;
@@ -15,6 +16,7 @@ import com.nerdherd.lib.motor.single.SingleMotorMechanism;
 import com.nerdherd.lib.motor.single.SingleMotorVictorSPX;
 import com.nerdherd.lib.pneumatics.Piston;
 import com.nerdherd.lib.sensor.analog.PressureSensor;
+import com.nerdherd.lib.oi.XboxDriverOI;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -82,17 +84,16 @@ public class Robot extends TimedRobot {
   public static Climber climber;
   public static Limelight limelight;
   public static OI oi;
+  public static XboxDriverOI oi2;
   public static ResetSingleMotorEncoder hoodReset;
   public static SendableChooser<Command> autoChooser;
 
   // public static SingleMotorMechanism falcon;
 
-  // public DifferentialDrivetrainSim m_driveSim = 
+  // public DifferentialDrivetrainSim m_driveSim =
   // new DifferentialDrivetrainSim(
 
-
-
-  // ); 
+  // );
 
   @Override
   public void robotInit() {
@@ -108,7 +109,7 @@ public class Robot extends TimedRobot {
     // motor = new SingleMotorMechanism(6, "Motor", true, true);
     ds = DriverStation.getInstance();
     // climberRatchet = new Piston(6, 9);
-    pes = new PressureSensor("name",  2);
+    pes = new PressureSensor("name", 2);
     // climberRatchet.setReverse();
     CameraServer.getInstance().startAutomaticCapture();
 
@@ -126,7 +127,9 @@ public class Robot extends TimedRobot {
     // climberReset = new ParallelCommandGroup( ));
     oi = new OI();
 
-    drive.setDefaultCommand(new ArcadeDrive(Robot.drive, Robot.oi));
+    oi2 = new XboxOI();
+
+    drive.setDefaultCommand(new TankDrive(Robot.drive, Robot.oi2));
     drive.configKinematics(DriveConstants.kTrackWidth, new Rotation2d(0), new Pose2d(0, 0, new Rotation2d(0)));
     NerdyBadlog.initAndLog("/home/lvuser/logs/", "FeedForwardTest", 0.02, shooter, hood, index, hopper, drive);
 
@@ -139,14 +142,12 @@ public class Robot extends TimedRobot {
     autoChooser.addOption("BounceBackwards", new BounceBackwards(drive));
     autoChooser.addOption("Barrel", new BarrelRacing(drive));
     autoChooser.addOption("Light", new Lightspeed(drive));
-    
-    
+
     // autoChooser.addOption("8Ball", new AutoLineIntoTrenchFive(drive));
     // autoChooser.addOption("5 Steal", new StealTwoEnemyTrench(drive));
     // autoChooser.addOption("10 Ball", new StealTwoIntoTrench(drive));
     SmartDashboard.putData("Autos", autoChooser);
-    
-    
+
   }
 
   @Override
@@ -165,11 +166,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("DesiredAngle", Robot.hood.distToAngle(Robot.limelight.getDistanceWidth()));
     SmartDashboard.putNumber("Right Voltage 1", drive.getRightOutputVoltage());
     SmartDashboard.putNumber("Pressure: ", pes.getScaled());
-    
-    
+
     climber.reportToSmartDashboard();
-    
-    
+
   }
 
   @Override
@@ -177,13 +176,13 @@ public class Robot extends TimedRobot {
     hood.resetEncoder();
     Robot.climber.followerFalcon.resetEncoder();
     Robot.climber.mainFalcon.resetEncoder();
-    
+
     drive.setCoastMode();
   }
 
   @Override
   public void disabledPeriodic() {
-    if(oi.driveJoyLeft.getRawButton(5) || oi.driveJoyRight.getRawButton(5)) {
+    if (oi.driveJoyLeft.getRawButton(5) || oi.driveJoyRight.getRawButton(5)) {
       hood.resetEncoder();
       climber.followerFalcon.resetEncoder();
       climber.mainFalcon.resetEncoder();
@@ -193,13 +192,14 @@ public class Robot extends TimedRobot {
     }
     // Robot.climber.followerFalcon.resetEncoder();
     // Robot.climber.mainFalcon.resetEncoder();
-    
+
   }
+
   @Override
   public void autonomousInit() {
     drive.setBrakeMode();
     m_autonomousCommand = autoChooser.getSelected();
-    if (m_autonomousCommand != null) { 
+    if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
   }
@@ -207,22 +207,21 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
-    
+
   }
 
   @Override
   public void teleopInit() {
     drive.setCoastMode();
     // drive.setPose(new Pose2d(0, 0, new Rotation2d(Math.PI)));
-  
+
   }
 
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
     // drive.setCoastMode();
-   
-  
+
   }
 
   @Override

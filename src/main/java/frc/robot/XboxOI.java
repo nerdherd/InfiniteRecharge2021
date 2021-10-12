@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.climber.ClimberLift;
 import frc.robot.commands.climber.ClimberReady;
 import frc.robot.commands.intake.IntakeBalls;
+import frc.robot.commands.intake.Stow;
 import frc.robot.commands.other.SetAngle;
 import frc.robot.commands.shooting.AutolineShot;
 import frc.robot.commands.shooting.RendezvousShot;
@@ -35,60 +36,62 @@ import frc.robot.commands.shooting.WallShot;
 
 public class XboxOI extends XboxDriverOI {
     
-    public JoystickButton shiftLow, shiftHigh, intake, outtake, rightEncoder, leftEncoder; // driver
-    public Button stow, outtakeBrushes; // driver triggers
-    public JoystickButton startShooting, climbReady, climbLift, wallShot, autolineShot, hoodAngle, rendezvousShot, trenchShot; // operator
+    private JoystickButton m_shiftLow, m_shiftHigh, m_intake, m_outtake, m_rightEncoder, m_leftEncoder; // driver
+    private Button m_stow, m_outtakeBrushes; // driver triggers
+    private JoystickButton m_startShooting, m_climbReady, m_climbLift, m_wallShot, m_autolineShot, m_hoodAngle, m_rendezvousShot, m_trenchShot; // operator
     
-    public double triggerStart = 0.25;
+    private double m_triggerThreshold = 0.25;
 
     public XboxOI() {
         super();
 
-        shiftLow = new JoystickButton(super.driverController, XboxController.Button.kA.value);
-        shiftHigh = new JoystickButton(super.driverController, XboxController.Button.kB.value);
-        intake = new JoystickButton(super.driverController, XboxController.Button.kBumperRight.value);
-        outtake = new JoystickButton(super.driverController, XboxController.Button.kBumperLeft.value);
-        leftEncoder = new JoystickButton(super.driverController, XboxController.Button.kBack.value);
-        rightEncoder = new JoystickButton(super.driverController, XboxController.Button.kStart.value);
+        m_shiftLow = new JoystickButton(super.driverController, XboxController.Button.kA.value);
+        m_shiftHigh = new JoystickButton(super.driverController, XboxController.Button.kB.value);
+        m_intake = new JoystickButton(super.driverController, XboxController.Button.kBumperRight.value);
+        m_outtake = new JoystickButton(super.driverController, XboxController.Button.kBumperLeft.value);
+        m_leftEncoder = new JoystickButton(super.driverController, XboxController.Button.kBack.value);
+        m_rightEncoder = new JoystickButton(super.driverController, XboxController.Button.kStart.value);
 
-        shiftLow.whenPressed(new ShiftLow(Robot.drive));
-        shiftHigh.whenPressed(new ShiftHigh(Robot.drive));
-        intake.whenPressed(new IntakeBalls());
-        outtake.whenPressed(new SetMotorPower(Robot.intakeRoll, -0.75).alongWith(
-                new InstantCommand(() -> Robot.hopper.setPowerWithoutTop(-0.4, -0.8)),
-                new SetMotorPower(Robot.index, -0.33), new InstantCommand(() -> Robot.hopper.setTopHopperPower(0.41))));
-        rightEncoder.whenPressed(Robot.hoodReset);
-        leftEncoder.whenPressed(Robot.hoodReset);
-
-        stow = new Button(new BooleanSupplier(){
+        // create an analog trigger for L and R
+        m_stow = new Button(new BooleanSupplier(){
             public boolean getAsBoolean() {
                 return getTrigger(Hand.kRight);
             };
         });
-        
-        outtakeBrushes = new Button(new BooleanSupplier(){
+        m_outtakeBrushes = new Button(new BooleanSupplier(){
             public boolean getAsBoolean() {
                 return getTrigger(Hand.kLeft);
             }
         });
 
-        startShooting = new JoystickButton(super.operatorJoy, 1);
-        hoodAngle = new JoystickButton(super.operatorJoy, 2);
-        climbReady = new JoystickButton(super.operatorJoy, 3);
-        climbLift = new JoystickButton(super.operatorJoy, 4);
-        wallShot = new JoystickButton(super.operatorJoy, 7);
-        autolineShot = new JoystickButton(super.operatorJoy, 8);
-        rendezvousShot = new JoystickButton(super.operatorJoy, 11);
-        trenchShot = new JoystickButton(super.operatorJoy, 12);
+        m_shiftLow.whenPressed(new ShiftLow(Robot.drive));
+        m_shiftHigh.whenPressed(new ShiftHigh(Robot.drive));
+        m_intake.whenPressed(new IntakeBalls());
+        m_outtake.whenPressed(new SetMotorPower(Robot.intakeRoll, -0.75).alongWith(
+                new InstantCommand(() -> Robot.hopper.setPowerWithoutTop(-0.4, -0.8)),
+                new SetMotorPower(Robot.index, -0.33), new InstantCommand(() -> Robot.hopper.setTopHopperPower(0.41))));
+        m_rightEncoder.whenPressed(Robot.hoodReset);
+        m_leftEncoder.whenPressed(Robot.hoodReset);
+        m_stow.whenPressed(new Stow());
+        m_outtakeBrushes.whenHeld(new InstantCommand(() -> Robot.hopper.setTopHopperPower(-0.41)));
 
-        startShooting.whenPressed(new ShootBall());
-        hoodAngle.whenPressed(new SetAngle());
-        climbReady.whenPressed(new ClimberReady());
-        climbLift.whenPressed(new ClimberLift());
-        wallShot.whenPressed(new WallShot());
-        autolineShot.whenPressed(new AutolineShot());
-        rendezvousShot.whenPressed(new RendezvousShot());
-        trenchShot.whenPressed(new TrenchShot());
+        m_startShooting = new JoystickButton(super.operatorJoy, 1);
+        m_hoodAngle = new JoystickButton(super.operatorJoy, 2);
+        m_climbReady = new JoystickButton(super.operatorJoy, 3);
+        m_climbLift = new JoystickButton(super.operatorJoy, 4);
+        m_wallShot = new JoystickButton(super.operatorJoy, 7);
+        m_autolineShot = new JoystickButton(super.operatorJoy, 8);
+        m_rendezvousShot = new JoystickButton(super.operatorJoy, 11);
+        m_trenchShot = new JoystickButton(super.operatorJoy, 12);
+
+        m_startShooting.whileHeld(new ShootBall());
+        m_hoodAngle.whenPressed(new SetAngle());
+        m_climbReady.whenPressed(new ClimberReady());
+        m_climbLift.whenPressed(new ClimberLift());
+        m_wallShot.whenPressed(new WallShot());
+        m_autolineShot.whenPressed(new AutolineShot());
+        m_rendezvousShot.whenPressed(new RendezvousShot());
+        m_trenchShot.whenPressed(new TrenchShot());
     }
 
     public boolean getRawButton(int n) {
@@ -104,7 +107,7 @@ public class XboxOI extends XboxDriverOI {
     }
 
     public boolean getTrigger(Hand hand) {
-        return getTriggerAxis(hand) >= triggerStart;
+        return getTriggerAxis(hand) >= m_triggerThreshold;
     }
 
 }

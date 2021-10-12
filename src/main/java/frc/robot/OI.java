@@ -19,6 +19,7 @@ import com.nerdherd.lib.motor.commands.SetMotorPower;
 import com.nerdherd.lib.motor.single.SingleMotorMechanism;
 import com.nerdherd.lib.oi.DefaultOI;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;

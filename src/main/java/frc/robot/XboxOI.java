@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import com.nerdherd.lib.drivetrain.auto.DriveDistanceMotionMagic;
 import com.nerdherd.lib.drivetrain.auto.DriveStraightContinuous;
 import com.nerdherd.lib.drivetrain.auto.ResetDriveEncoders;
@@ -18,7 +20,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.climber.ClimberLift;
@@ -34,7 +36,7 @@ import frc.robot.commands.shooting.WallShot;
 public class XboxOI extends XboxDriverOI {
     
     public JoystickButton shiftLow, shiftHigh, intake, outtake, rightEncoder, leftEncoder; // driver
-    // public JoystickButton stow, outtakeBrushes;
+    public Button stow, outtakeBrushes; // driver triggers
     public JoystickButton startShooting, climbReady, climbLift, wallShot, autolineShot, hoodAngle, rendezvousShot, trenchShot; // operator
     
     public double triggerStart = 0.25;
@@ -57,6 +59,18 @@ public class XboxOI extends XboxDriverOI {
                 new SetMotorPower(Robot.index, -0.33), new InstantCommand(() -> Robot.hopper.setTopHopperPower(0.41))));
         rightEncoder.whenPressed(Robot.hoodReset);
         leftEncoder.whenPressed(Robot.hoodReset);
+
+        stow = new Button(new BooleanSupplier(){
+            public boolean getAsBoolean() {
+                return getTrigger(Hand.kRight);
+            };
+        });
+        
+        outtakeBrushes = new Button(new BooleanSupplier(){
+            public boolean getAsBoolean() {
+                return getTrigger(Hand.kLeft);
+            }
+        });
 
         startShooting = new JoystickButton(super.operatorJoy, 1);
         hoodAngle = new JoystickButton(super.operatorJoy, 2);

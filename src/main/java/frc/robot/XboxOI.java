@@ -16,6 +16,7 @@ import com.nerdherd.lib.oi.XboxDriverOI;
 import edu.wpi.first.wpilibj.AnalogTrigger;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -82,6 +83,10 @@ public class XboxOI extends XboxDriverOI {
 
     public double getTriggerAxis(Hand hand) {
         return super.driverController.getTriggerAxis(hand);
+    }
+
+    public void setRumble(RumbleType rumbleType, double value) {
+        super.driverController.setRumble(rumbleType, value);
     }
 
     public boolean getTrigger(Hand hand) {

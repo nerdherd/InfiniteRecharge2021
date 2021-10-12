@@ -225,11 +225,11 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     // drive.setCoastMode();
 
-    if (oi.getTriggerAxis(Hand.kRight) >= 0.5) {
+    if (oi.getTrigger(Hand.kRight)) {
       new Stow().execute();
     }
 
-    if (oi.getTriggerAxis(Hand.kLeft) >= 0.5) {
+    if (oi.getTrigger(Hand.kLeft)) {
       Robot.hopper.setTopHopperPower(-0.41);
     }
   }

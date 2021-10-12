@@ -59,20 +59,20 @@ public class XboxOI extends XboxDriverOI {
         leftEncoder.whenPressed(Robot.hoodReset);
 
         startShooting = new JoystickButton(super.operatorJoy, 1);
+        hoodAngle = new JoystickButton(super.operatorJoy, 2);
         climbReady = new JoystickButton(super.operatorJoy, 3);
         climbLift = new JoystickButton(super.operatorJoy, 4);
         wallShot = new JoystickButton(super.operatorJoy, 7);
         autolineShot = new JoystickButton(super.operatorJoy, 8);
-        hoodAngle = new JoystickButton(super.operatorJoy, 9);
         rendezvousShot = new JoystickButton(super.operatorJoy, 11);
         trenchShot = new JoystickButton(super.operatorJoy, 12);
 
         startShooting.whenPressed(new ShootBall());
+        hoodAngle.whenPressed(new SetAngle());
         climbReady.whenPressed(new ClimberReady());
         climbLift.whenPressed(new ClimberLift());
         wallShot.whenPressed(new WallShot());
         autolineShot.whenPressed(new AutolineShot());
-        hoodAngle.whenPressed(new SetAngle());
         rendezvousShot.whenPressed(new RendezvousShot());
         trenchShot.whenPressed(new TrenchShot());
     }

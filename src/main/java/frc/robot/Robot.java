@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
   public static Climber climber;
   public static Limelight limelight;
   // public static OI oi;
-  public static XboxDriveOI oi;
+  public static XboxOI oi;
   public static ResetSingleMotorEncoder hoodReset;
   public static SendableChooser<Command> autoChooser;
   // public static SendableChooser<Command> oiChooser;
@@ -134,7 +134,7 @@ public class Robot extends TimedRobot {
     // climberReset = new ParallelCommandGroup( ));
 
     // oi = new OI(); // Standard OI
-    oi = new XboxDriveOI(0.2); // Xbox OI
+    oi = new XboxOI(0.2); // Xbox OI
 
     // drive.setDefaultCommand(new ArcadeDrive(Robot.drive, Robot.oi)); // Use arcade drive
     drive.setDefaultCommand(new TankDrive(Robot.drive, Robot.oi)); // Use tank drive

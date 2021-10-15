@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
   public static Climber climber;
   public static Limelight limelight;
   // public static OI oi;
-  public static AbstractOI oi;
+  public static XboxDriveOI oi;
   public static ResetSingleMotorEncoder hoodReset;
   public static SendableChooser<Command> autoChooser;
   // public static SendableChooser<Command> oiChooser;
@@ -134,7 +134,7 @@ public class Robot extends TimedRobot {
     // climberReset = new ParallelCommandGroup( ));
 
     // oi = new OI(); // Standard OI
-    oi = new XboxDriveOI(0.01); // Xbox OI
+    oi = new XboxDriveOI(0.2); // Xbox OI
 
     // drive.setDefaultCommand(new ArcadeDrive(Robot.drive, Robot.oi)); // Use arcade drive
     drive.setDefaultCommand(new TankDrive(Robot.drive, Robot.oi)); // Use tank drive
@@ -167,6 +167,8 @@ public class Robot extends TimedRobot {
     // driveChooser.addOption("Arcade Drive", new InstantCommand(() -> drive.setDefaultCommand(new TankDrive(Robot.drive, Robot.oi))));
 
     // SmartDashboard.putData(driveChooser);
+
+    SmartDashboard.putNumber("deadband", 0.25);
   }
 
   @Override
@@ -239,6 +241,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
     // drive.setCoastMode();
+    oi.configJoystickDeadband(SmartDashboard.getNumber("deadband", oi.getJoystickDeadband()));
   }
 
   @Override

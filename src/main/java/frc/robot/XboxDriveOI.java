@@ -80,11 +80,7 @@ import frc.robot.subsystems.Indexer.IndexerState;
  */
 public class XboxDriveOI extends XboxDriverOI {
 
-    // public JoystickButton intake_1, startShooting_2, startShootingOld_3, trenchShot_7, autolineShot_9, stow_10,
-    //         wallShot_11, autoDistance_12, hoodAngle_5, turnToAngle_1L, turnToAngle_1R, resetEncoders_5R,
-    //         resetEncoders_5L, outtake_6, shiftHigh_6L, shiftLow_6R, ploughIntake_2, togglePipeline_4, rendezvousShot_8,
-    //         climbReady_3L, climbLift_4L, outtakeBrushes_8;
-    public JoystickButton startShooting_2, startShootingOld_3, trenchShot_7, autolineShot_9, stow_10, wallShot_11, autoDistance_12, hoodAngle_5, outtake_6, togglePipeline_4, rendezvousShot_8, outtakeBrushes_8;
+    public JoystickButton startShooting_2, startShootingOld_3, trenchShot_7, autolineShot_9, stow_10, wallShot_11, autoDistance_12, hoodAngle_5, outtake_6, togglePipeline_4, rendezvousShot_8, outtakeBrushes_8, intake_1;
 
     public JoystickButton shiftLow_A, shiftHigh_B, climbReady_X, climbLift_Y, resetEncoders_LB, ploughIntake_RB;
     public Button intake_RT, turnToAngle_LT;
@@ -93,15 +89,13 @@ public class XboxDriveOI extends XboxDriverOI {
 
     private double m_triggerThreshold = 0.25;
 
-    // trench and auto manual shooting position for shooter
-    // climberExtend_5, climberRetract_6
-
     public XboxDriveOI() {
         this(0);
     }
 
     public XboxDriveOI(double deadband) {
         super(deadband);
+        intake_1 = new JoystickButton(super.operatorJoy, 1);
         startShooting_2 = new JoystickButton(super.operatorJoy, 2);
         startShootingOld_3 = new JoystickButton(super.operatorJoy, 3);
         trenchShot_7 = new JoystickButton(super.operatorJoy, 7);
@@ -134,6 +128,7 @@ public class XboxDriveOI extends XboxDriverOI {
             }
         };
 
+        intake_1.whenPressed(new IntakeBalls());
         startShooting_2.whileHeld(new ShootBall());
         startShootingOld_3.whileHeld(new ShootBallTemp());
         togglePipeline_4.whenPressed(new InstantCommand(() -> Robot.limelight.togglePipeline()));
@@ -184,7 +179,6 @@ public class XboxDriveOI extends XboxDriverOI {
                 new InstantCommand(() -> Robot.drive.setPose(new Pose2d(0.762, -0.762, new Rotation2d(Math.PI / 2)))));
         SmartDashboard.putData("Config Galactic Heading",
                 new InstantCommand(() -> Robot.drive.setPose(new Pose2d(2.286, -0.762, new Rotation2d(Math.PI / 2)))));
-
         SmartDashboard.putData("4VShooter", new SetMotorPower(Robot.shooter, 0.33));
         SmartDashboard.putData("SetHoodFF lime -> deg", new DistanceToAngle());
         SmartDashboard.putData("ResetHoodEncoder", new ResetSingleMotorEncoder(Robot.hood));
@@ -194,11 +188,6 @@ public class XboxDriveOI extends XboxDriverOI {
         SmartDashboard.putData("Test Ramsete", new TestRamsete(Robot.drive));
         SmartDashboard.putData("Test Ramsete Turn", new TestRamseteTurn(Robot.drive));
         SmartDashboard.putData("InGameResetEncoders", new InGameResetHood());
-
-    }
-
-    private Sendable SetMotorPower(SingleMotorMechanism index, double d) {
-        return null;
     }
 
     public boolean getRawButton(int n) {

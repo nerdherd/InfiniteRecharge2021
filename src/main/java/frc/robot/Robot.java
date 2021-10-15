@@ -134,7 +134,7 @@ public class Robot extends TimedRobot {
     // climberReset = new ParallelCommandGroup( ));
 
     // oi = new OI(); // Standard OI
-    oi = new XboxOI(); // Xbox OI
+    oi = new XboxDriveOI(0.01); // Xbox OI
 
     // drive.setDefaultCommand(new ArcadeDrive(Robot.drive, Robot.oi)); // Use arcade drive
     drive.setDefaultCommand(new TankDrive(Robot.drive, Robot.oi)); // Use tank drive
@@ -211,7 +211,6 @@ public class Robot extends TimedRobot {
     // }
     // Robot.climber.followerFalcon.resetEncoder();
     // Robot.climber.mainFalcon.resetEncoder();
-    
   }
 
   @Override
@@ -240,14 +239,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
     // drive.setCoastMode();
-
-    // if (oi.getTrigger(Hand.kRight)) {
-    //   new Stow().execute();
-    // }
-
-    // if (oi.getTrigger(Hand.kLeft)) {
-    //   Robot.hopper.setTopHopperPower(-0.41);
-    // }
   }
 
   @Override

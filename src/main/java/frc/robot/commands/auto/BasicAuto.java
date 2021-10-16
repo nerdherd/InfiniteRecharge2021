@@ -25,7 +25,7 @@ public class BasicAuto extends SequentialCommandGroup {
 
     public BasicAuto() {
         addCommands(
-            new AutolineShot(), 
+            //new AutolineShot(), 
             new InstantCommand(() -> Robot.hood.setStoredAngle(), Robot.hood), 
             new ParallelRaceGroup(new WaitCommand(2), new TurnToAngleLime(0.009)),
             new ParallelRaceGroup(new ShootBall(), new WaitCommand(8)),

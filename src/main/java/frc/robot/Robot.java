@@ -167,6 +167,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Pressure: ", pes.getScaled());
     
     
+
+    
     climber.reportToSmartDashboard();
     
     

@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.InGameResetHood;
 import frc.robot.commands.auto.AutoLineIntoTrench;
 import frc.robot.commands.auto.BarrelRacing;
+import frc.robot.commands.auto.BasicAuto;
 import frc.robot.commands.auto.Bounce;
 import frc.robot.commands.auto.BounceBackwards;
 import frc.robot.commands.auto.GalacticPathABlue;
@@ -136,6 +137,7 @@ public class OI extends DefaultOI {
                 new InstantCommand(() -> Robot.index.indexerState = IndexerState.EMPTY));
         SmartDashboard.putData("cLIMBER UP", new ClimberReady());
         SmartDashboard.putData("Climber Lift", new ClimberLift());
+        SmartDashboard.putData("BasicAuto", new BasicAuto());
         // SmartDashboard.putData("Ramsete TEST", new BasicRamseteForward(Robot.drive));
         // SmartDashboard.putData("Ramsete Trench", new
         // AutoLineIntoTrench(Robot.drive));
@@ -170,7 +172,7 @@ public class OI extends DefaultOI {
         SmartDashboard.putNumber("Left Voltage", Robot.drive.getLeftOutputVoltage());
         SmartDashboard.putData("Config Slalom Heading", new InstantCommand(() -> Robot.drive.setPose(new Pose2d(0.762, -0.762, new Rotation2d(Math.PI/2)))));
         SmartDashboard.putData("Config Galactic Heading", new InstantCommand(() -> Robot.drive.setPose(new Pose2d(2.286, -0.762, new Rotation2d(Math.PI/2)))));  
-
+        
 
 
 
@@ -182,7 +184,7 @@ public class OI extends DefaultOI {
         // SmartDashboard.putData("3VIndex", new SetMotorPower(Robot.index, 0.25));
 
         // SmartDashboard.putData("TogglePipeline", new InstantCommand(() -> Robot.limelight.togglePipeline()));
-        // SmartDashboard.putData("Auto into trench", new AutoLineIntoTrench(Robot.drive));
+        SmartDashboard.putData("Auto into trench", new AutoLineIntoTrench(Robot.drive));
         // SmartDashboard.putData("Feeder45", new SetDualMotorPower(Robot.feeder, 0.45,
         // 0.45));
         // SmartDashboard.putData("Feeder25", new SetDualMotorPower(Robot.feeder, 0.25,

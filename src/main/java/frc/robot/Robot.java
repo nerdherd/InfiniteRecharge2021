@@ -187,7 +187,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("DesiredAngle", Robot.hood.distToAngle(Robot.limelight.getDistanceWidth()));
     SmartDashboard.putNumber("Right Voltage 1", drive.getRightOutputVoltage());
     SmartDashboard.putNumber("Pressure: ", pes.getScaled());
-
     climber.reportToSmartDashboard();
 
   }

@@ -33,6 +33,7 @@ public class IntakeBalls extends CommandBase {
   @Override
   public void initialize() {
     // Robot.hopper.setPower(-0.33, -0.167);
+    Robot.hopper.setPower(0.33, -0.167);
     m_startTime = Timer.getFPGATimestamp();
     if (Robot.index.indexerState == IndexerState.EMPTY) {
       Robot.index.indexerState = IndexerState.WAITING;

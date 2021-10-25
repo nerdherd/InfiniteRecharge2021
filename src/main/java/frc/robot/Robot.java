@@ -146,6 +146,7 @@ public class Robot extends TimedRobot {
     autoChooser = new SendableChooser<Command>();
     // autoChooser.setDefaultOption("Basic Auto", new BasicAuto());
     autoChooser.addOption("Basic Auto No Move", new BasicAutoNoMove());
+    autoChooser.addOption("Basic Auto", new BasicAuto());
     autoChooser.addOption("6Ball", new AutoLineTrenchThree(drive));
     autoChooser.addOption("Slalom", new Slalom(drive));
     autoChooser.addOption("Bounce", new Bounce(drive));

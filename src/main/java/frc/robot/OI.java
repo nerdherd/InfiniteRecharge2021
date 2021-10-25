@@ -33,6 +33,7 @@ import frc.robot.commands.InGameResetHood;
 import frc.robot.commands.auto.AutoLineIntoTrench;
 import frc.robot.commands.auto.BarrelRacing;
 import frc.robot.commands.auto.BasicAuto;
+import frc.robot.commands.auto.BasicAutoNoMove;
 import frc.robot.commands.auto.Bounce;
 import frc.robot.commands.auto.BounceBackwards;
 import frc.robot.commands.auto.GalacticPathABlue;
@@ -139,6 +140,7 @@ public class OI extends DefaultOI {
         SmartDashboard.putData("cLIMBER UP", new ClimberReady());
         SmartDashboard.putData("Climber Lift", new ClimberLift());
         SmartDashboard.putData("BasicAuto", new BasicAuto());
+        SmartDashboard.putData("BasicAuto No Move", new BasicAutoNoMove());
         // SmartDashboard.putData("Ramsete TEST", new BasicRamseteForward(Robot.drive));
         // SmartDashboard.putData("Ramsete Trench", new
         // AutoLineIntoTrench(Robot.drive));

@@ -137,8 +137,8 @@ public class Robot extends TimedRobot {
     // oi = new OI(); // Standard OI
     oi = new XboxOI(0.2); // Xbox OI
 
-    // drive.setDefaultCommand(new ArcadeDrive(Robot.drive, Robot.oi)); // Use arcade drive
-    drive.setDefaultCommand(new TankDrive(Robot.drive, Robot.oi)); // Use tank drive
+    drive.setDefaultCommand(new ArcadeDrive(Robot.drive, Robot.oi)); // Use arcade drive
+    // drive.setDefaultCommand(new TankDrive(Robot.drive, Robot.oi)); // Use tank drive
     drive.configKinematics(DriveConstants.kTrackWidth, new Rotation2d(0), new Pose2d(0, 0, new Rotation2d(0)));
     NerdyBadlog.initAndLog("/home/lvuser/logs/", "FeedForwardTest", 0.02, shooter, hood, index, hopper, drive);
 

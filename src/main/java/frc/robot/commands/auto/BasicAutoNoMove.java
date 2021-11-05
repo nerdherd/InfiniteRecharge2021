@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
-import frc.robot.commands.intake.Stow;
 import frc.robot.commands.shooting.AutolineShot;
 import frc.robot.commands.shooting.ShootBall;
 import frc.robot.commands.vision.TurnToAngleLime;
@@ -26,10 +25,11 @@ import frc.robot.constants.VisionConstants;
 public class BasicAutoNoMove extends SequentialCommandGroup {
 
     public BasicAutoNoMove() {
-        addCommands(new AutolineShot(), new InstantCommand(() -> Robot.hood.setStoredAngle(), Robot.hood), 
+        addCommands(
+            new AutolineShot(), 
+            new InstantCommand(() -> Robot.hood.setStoredAngle(), Robot.hood), 
             new ParallelRaceGroup(new WaitCommand(1), new TurnToAngleLime(VisionConstants.kRotP_lime)),
-            new ParallelRaceGroup(new ShootBall(), new WaitCommand(8)),
-            new Stow()
+            new ParallelRaceGroup(new ShootBall(), new WaitCommand(2.75))
             // new ParallelRaceGroup(new OpenLoopDrive(Robot.drive, -0.2), new WaitCommand(1))
         );
     }

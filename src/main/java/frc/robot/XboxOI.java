@@ -82,8 +82,8 @@ public class XboxOI extends XboxDriverOI {
 
     public JoystickButton startShooting_2, startShootingOld_3, trenchShot_7, autolineShot_9, stow_10, wallShot_11, autoDistance_12, hoodAngle_5, outtake_6, togglePipeline_4, rendezvousShot_8, outtakeBrushes_8, intake_1;
 
-    public JoystickButton shiftLow_A, shiftHigh_B, climbReady_X, climbLift_Y, outtake_LB, stow_RB;
-    public Button intake_RT, turnToAngle_LT;
+    public JoystickButton shiftLow_A, shiftHigh_B, climbReady_X, climbLift_Y, turnToAngle_LB, stow_RB, resetEncoder_BA;
+    public Button intake_RT, outtake_LT;
 
     public final int BUTTON_A = 1, BUTTON_B = 2, BUTTON_X = 3, BUTTON_Y = 4, BUTTON_LB = 5, BUTTON_RB = 6, BUTTON_BACK = 7, BUTTON_START = 8, BUTTON_LEFT_STICK = 9, BUTTON_RIGHT_STICK = 10;
 
@@ -113,15 +113,17 @@ public class XboxOI extends XboxDriverOI {
         shiftHigh_B = new JoystickButton(super.driverController, BUTTON_B);
         climbReady_X = new JoystickButton(super.driverController, BUTTON_X);
         climbLift_Y = new JoystickButton(super.driverController, BUTTON_Y);
-        outtake_LB = new JoystickButton(super.driverController, BUTTON_LB);
+        turnToAngle_LB = new JoystickButton(super.driverController, BUTTON_LB);
         stow_RB = new JoystickButton(super.driverController, BUTTON_RB);
+        resetEncoder_BA = new JoystickButton(super.driverController, BUTTON_BACK);
+
         intake_RT = new Button() {
             @Override
             public boolean get() {
                 return getTrigger(Hand.kRight);
             }
         };
-        turnToAngle_LT = new Button() {
+        outtake_LT = new Button() {
             @Override
             public boolean get() {
                 return getTrigger(Hand.kLeft);
@@ -144,16 +146,17 @@ public class XboxOI extends XboxDriverOI {
         wallShot_11.whenPressed(new WallShot().alongWith(new InstantCommand(() -> Robot.hood.setAngleMotionMagic(Robot.hood.storedAngle))));
         autoDistance_12.whenPressed(new DistanceToAngle());
 
-        outtake_LB.whenPressed(new SetMotorPower(Robot.intakeRoll, -0.75).alongWith(
+        outtake_LT.whenPressed(new SetMotorPower(Robot.intakeRoll, -0.75).alongWith(
                 new InstantCommand(() -> Robot.hopper.setPowerWithoutTop(-0.4, -0.8)),
                 new SetMotorPower(Robot.index, -0.33), new InstantCommand(() -> Robot.hopper.setTopHopperPower(0.41))));
         stow_RB.whenPressed(new Stow());
         shiftHigh_B.whenPressed(new ShiftHigh(Robot.drive));
         shiftLow_A.whenPressed(new ShiftLow(Robot.drive));
-        turnToAngle_LT.whileHeld(new TurnToAngleLime(VisionConstants.kRotP_lime)); // .009 before
+        turnToAngle_LB.whileHeld(new TurnToAngleLime(VisionConstants.kRotP_lime)); // .009 before
         intake_RT.whenPressed(new IntakeBalls());
         climbReady_X.whenPressed(new ClimberReady());
         climbLift_Y.whileHeld(new ClimberLift());
+        resetEncoder_BA.whenPressed(new ResetDriveEncoders(Robot.drive));
         
         SmartDashboard.putData("Reset indexer",
                 new InstantCommand(() -> Robot.index.indexerState = IndexerState.EMPTY));

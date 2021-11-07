@@ -138,15 +138,17 @@ public class XboxOI extends XboxDriverOI {
         outtake_6.whenPressed(new SetMotorPower(Robot.intakeRoll, -0.75).alongWith(
                 new InstantCommand(() -> Robot.hopper.setPowerWithoutTop(-0.4, -0.8)),
                 new SetMotorPower(Robot.index, -0.33), new InstantCommand(() -> Robot.hopper.setTopHopperPower(0.41))));
-        trenchShot_7.whenPressed(new TrenchShot().alongWith(new InstantCommand(() -> Robot.hood.setAngleMotionMagic(Robot.hood.storedAngle))));
-        rendezvousShot_8.whenPressed(new RendezvousShot().alongWith(new InstantCommand(() -> Robot.hood.setAngleMotionMagic(Robot.hood.storedAngle))));
+        trenchShot_7.whenPressed(new TrenchShot());
+        rendezvousShot_8.whenPressed(new RendezvousShot());
         outtakeBrushes_8.whenHeld(new InstantCommand(() -> Robot.hopper.setTopHopperPower(-0.41)));
-        autolineShot_9.whenPressed(new AutolineShot().alongWith(new InstantCommand(() -> Robot.hood.setAngleMotionMagic(Robot.hood.storedAngle))));
+        autolineShot_9.whenPressed(new AutolineShot());
         stow_10.whenPressed(new Stow());
-        wallShot_11.whenPressed(new WallShot().alongWith(new InstantCommand(() -> Robot.hood.setAngleMotionMagic(Robot.hood.storedAngle))));
+        // wallShot_11.whenPressed(new WallShot().alongWith(new InstantCommand(() -> Robot.hood.setAngleMotionMagic(Robot.hood.storedAngle))));
+        wallShot_11.whenPressed(new WallShot());
         autoDistance_12.whenPressed(new DistanceToAngle());
 
-        outtake_LT.whenPressed(new SetMotorPower(Robot.intakeRoll, -0.75).alongWith(
+        outtake_LT.whenPressed(new SetMotorPower(
+            Robot.intakeRoll, -0.75).alongWith(
                 new InstantCommand(() -> Robot.hopper.setPowerWithoutTop(-0.4, -0.8)),
                 new SetMotorPower(Robot.index, -0.33), new InstantCommand(() -> Robot.hopper.setTopHopperPower(0.41))));
         stow_RB.whenPressed(new Stow());

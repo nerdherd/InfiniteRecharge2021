@@ -7,6 +7,8 @@
 
 package frc.robot.commands.auto;
 
+import com.nerdherd.lib.drivetrain.auto.DriveDistanceMotionMagic;
+import com.nerdherd.lib.drivetrain.auto.DriveTime;
 import com.nerdherd.lib.drivetrain.characterization.OpenLoopDrive;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -14,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
+import frc.robot.commands.intake.Stow;
 import frc.robot.commands.shooting.AutolineShot;
 import frc.robot.commands.shooting.ShootBall;
 import frc.robot.commands.vision.TurnToAngleLime;
@@ -27,9 +30,13 @@ public class BasicAuto extends SequentialCommandGroup {
         addCommands(
             new AutolineShot(), 
             new InstantCommand(() -> Robot.hood.setStoredAngle(), Robot.hood), 
-            new ParallelRaceGroup(new WaitCommand(2), new TurnToAngleLime(0.009)),
+            new ParallelRaceGroup(new WaitCommand(2), new TurnToAngleLime(0.008)),
             new ParallelRaceGroup(new ShootBall(), new WaitCommand(8)),
-            new ParallelRaceGroup(new OpenLoopDrive(Robot.drive, -0.2), new WaitCommand(1))
+            //new ParallelRaceGroup(new OpenLoopDrive(Robot.drive, -0.2), new WaitCommand(1)),
+            new DriveTime(Robot.drive, -0.2, 1),
+            new Stow(),
+            new WaitCommand(1),
+            new InstantCommand(() -> Robot.hood.resetEncoder())
         );
     }
 

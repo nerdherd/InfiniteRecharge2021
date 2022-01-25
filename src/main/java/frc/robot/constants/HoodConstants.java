@@ -33,7 +33,7 @@ public class HoodConstants {
     public static final double kHoodCos = 0.0671;
 
     public static final double kWallShotAngle = 0;
-    public static final double kTrenchShotAngle = 31;
+    public static final double kTrenchShotAngle = 31; // orig: 31
     public static final double kAutolineShotAngle = 26;
     public static final double kRendezvousShotAngle = 29;
     public static final double kStowAngle = -10;

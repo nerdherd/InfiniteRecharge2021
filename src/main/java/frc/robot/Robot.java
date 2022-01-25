@@ -56,6 +56,8 @@ import frc.robot.subsystems.Jevois;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
+import org.photonvision.PhotonCamera;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -102,6 +104,8 @@ public class Robot extends TimedRobot {
   // new DifferentialDrivetrainSim(
 
   // );
+  //PhotonVision camera, get name from 10.6.87.2:5800
+  public PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 
   @Override
   public void robotInit() {

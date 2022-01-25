@@ -71,6 +71,7 @@ import frc.robot.commands.shooting.ShootBall;
 import frc.robot.commands.shooting.TrenchShot;
 import frc.robot.commands.shooting.WallShot;
 import frc.robot.commands.vision.DistanceToAngle;
+import frc.robot.commands.vision.PhotonVision;
 import frc.robot.commands.vision.TurnToAngleLime;
 import frc.robot.constants.VisionConstants;
 import frc.robot.subsystems.Indexer.IndexerState;
@@ -154,7 +155,8 @@ public class XboxOI extends XboxDriverOI {
         stow_RB.whenPressed(new Stow());
         shiftHigh_B.whenPressed(new ShiftHigh(Robot.drive));
         shiftLow_A.whenPressed(new ShiftLow(Robot.drive));
-        turnToAngle_LB.whileHeld(new TurnToAngleLime(VisionConstants.kRotP_lime)); // .009 before
+        //turnToAngle_LB.whileHeld(new TurnToAngleLime(VisionConstants.kRotP_lime)); // .009 before
+        turnToAngle_LB.whenPressed(new PhotonVision()); // .009 before
         intake_RT.whenPressed(new IntakeBalls());
         climbReady_X.whenPressed(new ClimberReady());
         climbLift_Y.whileHeld(new ClimberLift());
